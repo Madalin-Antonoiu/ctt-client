@@ -1,6 +1,6 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
-import { Dashboard } from "./Views/Dashboard";
+import { SignIn } from "./Views/Authentication/SignIn";
 
 const App = () => {
   return (
@@ -9,7 +9,7 @@ const App = () => {
         Hello World
       </Button> */}
 
-      <Dashboard />
+      <SignIn />
     </div>
   );
 };
