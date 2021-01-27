@@ -1,15 +1,16 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
-import { SignIn } from "./Views/Authentication/SignIn";
+import Test from "./Test";
+// import { SignIn } from "./Views/Authentication/SignIn";
 
 const App = () => {
   return (
     <div>
-      {/* <Button variant="contained" color="primary">
+      <Button variant="contained" color="primary">
         Hello World
-      </Button> */}
+      </Button>
 
-      <SignIn />
+      <Test />
     </div>
   );
 };
