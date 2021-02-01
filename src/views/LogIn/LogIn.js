@@ -10,6 +10,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import Navbar from "../Dashboard/Navbar";
 
 function Copyright() {
   return (
@@ -88,6 +89,7 @@ export const LogIn = () => {
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
+      <Navbar />
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />

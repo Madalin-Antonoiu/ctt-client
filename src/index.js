@@ -1,5 +1,15 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import App from "./components/App";
+import { Welcome } from "./views/Welcome";
 
-ReactDOM.render(<App />, document.querySelector("#root"));
+import ReactDOM from "react-dom";
+import { BrowserRouter, Route } from "react-router-dom";
+
+ReactDOM.render(
+  <BrowserRouter>
+    <App>
+      <Route path="/" component={Welcome} />
+    </App>
+  </BrowserRouter>,
+  document.querySelector("#root")
+);
