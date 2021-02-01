@@ -3,6 +3,7 @@ const INITIAL_STATE = {
   errorMessage: "",
 };
 
+// eslint-disable-next-line
 export default (state = INITIAL_STATE, action) => {
   return state;
 };

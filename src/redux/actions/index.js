@@ -1,5 +1,5 @@
 import axios from "axios";
-import { AUTH_USER } from "./types";
+// import { AUTH_USER } from "./types";
 
 //Returns an arrow function containing dispatch function, then we can invoke it
 export const signup = (formProps) => (dispatch) => {
