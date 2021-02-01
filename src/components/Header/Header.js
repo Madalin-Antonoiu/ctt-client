@@ -8,7 +8,7 @@ export class Header extends Component {
         <Link to="/">Redux Auth</Link>
         <Link to="/signup">Signup</Link>
         <Link to="/signin">Signin</Link>
-        <Link to="/signout">Signin</Link>
+        <Link to="/signout">SignOut</Link>
         <Link to="/feature">Feature</Link>
       </div>
     );
