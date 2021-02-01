@@ -5,6 +5,7 @@ import SignIn from "./views/Auth/SignIn";
 import SignUp from "./views/Auth/SignUp";
 import SignOut from "./views/Auth/SignOut";
 import Feature from "./views/Auth/Feature";
+import ExchangeInfo from "./views/Auth/ExchangeInfo";
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
 import reduxThunk from "redux-thunk";
@@ -28,6 +29,7 @@ ReactDOM.render(
         <Route path="/signin" component={SignIn} />
         <Route path="/signout" component={SignOut} />
         <Route path="/feature" component={Feature} />
+        <Route path="/exchangeInfo" component={ExchangeInfo} />
       </App>
     </BrowserRouter>
   </Provider>,
