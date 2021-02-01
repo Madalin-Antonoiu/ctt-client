@@ -1,10 +1,14 @@
 import React, { Component } from "react";
 import { reduxForm, Field } from "redux-form";
+import { compose } from "redux";
+import { connect } from "react-redux";
+import * as actions from "../../redux/actions";
 
 class SignUp extends Component {
   // By writting it as an arrow function we dont need to worry about binding the context
   onSubmit = (formProps) => {
-    console.log(formProps);
+    // console.log(formProps);
+    this.props.signup(formProps);
   };
 
   render() {
@@ -27,4 +31,7 @@ class SignUp extends Component {
   }
 }
 
-export default reduxForm({ form: "signup" })(SignUp);
+export default compose(
+  connect(null, actions),
+  reduxForm({ form: "signup" })
+)(SignUp);
