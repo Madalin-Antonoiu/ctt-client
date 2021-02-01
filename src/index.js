@@ -12,7 +12,11 @@ import reducers from "./redux/reducers";
 import ReactDOM from "react-dom";
 import { BrowserRouter, Route } from "react-router-dom";
 
-const store = createStore(reducers, {}, applyMiddleware(reduxThunk));
+const initialState = {
+  auth: { authenticated: localStorage.getItem("token") },
+};
+
+const store = createStore(reducers, initialState, applyMiddleware(reduxThunk));
 
 ReactDOM.render(
   <Provider store={store}>
