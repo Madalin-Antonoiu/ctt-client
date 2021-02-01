@@ -5,10 +5,10 @@ import { connect } from "react-redux";
 import * as actions from "../../redux/actions";
 
 class SignUp extends Component {
-  // By writting it as an arrow function we dont need to worry about binding the context
   onSubmit = (formProps) => {
-    // console.log(formProps);
-    this.props.signup(formProps);
+    this.props.signup(formProps, () => {
+      this.props.history.push("/feature");
+    });
   };
 
   render() {
@@ -25,13 +25,21 @@ class SignUp extends Component {
           <Field name="password" type="password" component="input" />
         </fieldset>
 
+        <div>{this.props.errorMessage}</div>
+
         <button> Sign Up</button>
       </form>
     );
   }
 }
 
+const mapStateToProps = (state) => {
+  return {
+    errorMessage: state.auth.errorMessage,
+  };
+};
+
 export default compose(
-  connect(null, actions),
+  connect(mapStateToProps, actions),
   reduxForm({ form: "signup" })
 )(SignUp);
