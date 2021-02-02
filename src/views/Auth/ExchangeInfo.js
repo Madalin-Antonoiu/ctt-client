@@ -43,26 +43,36 @@ const ExchangeInfo = (props) => {
   );
 
   const renderUSDTCoinsList = tradableUSDTCoins.data?.map((coin) => {
-    console.log(coin);
     return (
       <div className="inline" key={coin.symbol}>
-        <li>{coin.symbol}</li>
+        <li style={{ listStyleType: "none" }}>{coin.symbol}</li>
       </div>
     );
   });
 
+  // const ustTickersString = tradableUSDTCoins.data?.map((data) => {
+  //   return `${data.symbol.toLowerCase()}@ticker/`;
+  // });
+
+  // const doMe = () => {
+  //   let strWithRemovedLastSlash = ustTickersString?.toString().replace(",", "");
+
+  //   return strWithRemovedLastSlash;
+  // };
+
   return (
     <div>
       <div>ExchangeInfo Page</div>
-      {tradableUSDTCoins ? (
+      {tradableUSDTCoins !== [] ? (
         <div>
           {tradableUSDTCoins.serverTime} <br />
           {renderUSDTCoinsList?.length}
           <br />
           {renderUSDTCoinsList}
+          {/* <div>{doMe()}</div> */}
         </div>
       ) : (
-        ""
+        "Loading..."
       )}
     </div>
   );
