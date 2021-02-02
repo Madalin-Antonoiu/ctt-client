@@ -1,34 +1,45 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import "./Header.css";
+import { Layout, Menu } from "antd";
 
-class Header extends Component {
+const { Header } = Layout;
+
+class MyHeader extends Component {
   renderLinks() {
     if (this.props.authenticated) {
       return (
-        <div>
-          <Link to="/signout">SignOut</Link>
+        <>
+          <Menu.Item key="2" style={{ float: "right" }}>
+            <Link to="/signout">SignOut</Link>
+          </Menu.Item>
+          <Menu.Item key="3">
+            <Link to="/websocket">Websocket</Link>
+          </Menu.Item>
           {/* <Link to="/feature">Feature</Link> */}
-          <Link to="/websocket">Websocket</Link>
-        </div>
+        </>
       );
     } else {
       return (
-        <div>
-          <Link to="/signup">Signup</Link>
-          <Link to="/signin">Signin</Link>
-        </div>
+        <>
+          {/* <Menu.Item key="4" style={{ float: "right" }}>
+            <Link to="/signup">Signup</Link>
+          </Menu.Item> */}
+          <Menu.Item key="5" style={{ float: "right" }}>
+            <Link to="/signin">Signin</Link>
+          </Menu.Item>
+        </>
       );
     }
   }
 
   render() {
     return (
-      <div className="myHeader">
-        <Link to="/">Redux Auth</Link>
-        {this.renderLinks()}
-      </div>
+      <Header className="header">
+        <Menu theme="dark" mode="horizontal">
+          {this.renderLinks()}
+        </Menu>
+      </Header>
     );
   }
 }
@@ -37,4 +48,4 @@ const mapStateToProps = (state) => {
   return { authenticated: state.auth.authenticated };
 };
 
-export default connect(mapStateToProps)(Header);
+export default connect(mapStateToProps)(MyHeader);

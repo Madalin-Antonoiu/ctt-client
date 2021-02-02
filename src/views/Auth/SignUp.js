@@ -7,7 +7,7 @@ import * as actions from "../../redux/actions";
 class SignUp extends Component {
   onSubmit = (formProps) => {
     this.props.signup(formProps, () => {
-      this.props.history.push("/feature");
+      this.props.history.push("/websocket");
     });
   };
 
