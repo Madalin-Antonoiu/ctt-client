@@ -4,6 +4,23 @@ import axios from "axios";
 import { connect } from "react-redux";
 
 const ExchangeInfo = (props) => {
+  // Connect to my server socket
+  // var binanceSocket = new WebSocket(
+  //   "ws://localhost:8080/"
+  // );
+  // binanceSocket.onopen = () => {
+  //   console.log("Stream open.");
+  //     binanceSocket.send("Hi back!")
+  // ​
+  // }
+  // binanceSocket.onmessage = (event) => {
+  // //console.log(    typeof event.data )
+  // //  let USDTFilter = event.data?.filter(word => word.s.contains("USDT") );
+  // // console.log(USDTFilter);
+  //   console.log(JSON.parse(event.data));
+  // ​
+  // }
+
   const [tradableUSDTCoins, setTradableUSDTCoins] = useState([]);
 
   const postRequest = async () => {
@@ -50,15 +67,9 @@ const ExchangeInfo = (props) => {
     );
   });
 
-  // const ustTickersString = tradableUSDTCoins.data?.map((data) => {
-  //   return `${data.symbol.toLowerCase()}@ticker/`;
-  // });
-
-  // const doMe = () => {
-  //   let strWithRemovedLastSlash = ustTickersString?.toString().replace(",", "");
-
-  //   return strWithRemovedLastSlash;
-  // };
+  const ustTickersString = tradableUSDTCoins.data?.map((data) => {
+    return `${data.symbol.toLowerCase()}@ticker/`;
+  });
 
   return (
     <div>
@@ -69,7 +80,7 @@ const ExchangeInfo = (props) => {
           {renderUSDTCoinsList?.length}
           <br />
           {renderUSDTCoinsList}
-          {/* <div>{doMe()}</div> */}
+          {ustTickersString}
         </div>
       ) : (
         "Loading..."

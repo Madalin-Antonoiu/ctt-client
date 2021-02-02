@@ -5,6 +5,7 @@ import SignIn from "./views/Auth/SignIn";
 import SignUp from "./views/Auth/SignUp";
 import SignOut from "./views/Auth/SignOut";
 import Feature from "./views/Auth/Feature";
+import Websocket from "./views/Auth/Websocket";
 import ExchangeInfo from "./views/Auth/ExchangeInfo";
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
@@ -29,6 +30,7 @@ ReactDOM.render(
         <Route path="/signin" component={SignIn} />
         <Route path="/signout" component={SignOut} />
         <Route path="/feature" component={Feature} />
+        <Route path="/websocket" component={Websocket} />
         <Route path="/exchangeInfo" component={ExchangeInfo} />
       </App>
     </BrowserRouter>

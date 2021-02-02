@@ -9,7 +9,8 @@ class Header extends Component {
       return (
         <div>
           <Link to="/signout">SignOut</Link>
-          <Link to="/feature">Feature</Link>
+          {/* <Link to="/feature">Feature</Link> */}
+          <Link to="/websocket">Websocket</Link>
         </div>
       );
     } else {
