@@ -2,7 +2,7 @@ import React from "react";
 import App from "./components/App";
 import { Welcome } from "./views/Welcome";
 import SignIn from "./views/Auth/SignIn";
-import SignUp from "./views/Auth/SignUp";
+// import SignUp from "./views/Auth/SignUp";
 import SignOut from "./views/Auth/SignOut";
 import Feature from "./views/Auth/Feature";
 import Websocket from "./views/Auth/Websocket";

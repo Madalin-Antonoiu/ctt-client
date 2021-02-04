@@ -4,23 +4,6 @@ import axios from "axios";
 import { connect } from "react-redux";
 
 const ExchangeInfo = (props) => {
-  // Connect to my server socket
-  // var binanceSocket = new WebSocket(
-  //   "ws://localhost:8080/"
-  // );
-  // binanceSocket.onopen = () => {
-  //   console.log("Stream open.");
-  //     binanceSocket.send("Hi back!")
-  // ​
-  // }
-  // binanceSocket.onmessage = (event) => {
-  // //console.log(    typeof event.data )
-  // //  let USDTFilter = event.data?.filter(word => word.s.contains("USDT") );
-  // // console.log(USDTFilter);
-  //   console.log(JSON.parse(event.data));
-  // ​
-  // }
-
   const [tradableUSDTCoins, setTradableUSDTCoins] = useState([]);
 
   const postRequest = async () => {

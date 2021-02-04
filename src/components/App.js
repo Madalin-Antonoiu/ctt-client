@@ -12,7 +12,7 @@ import {
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 
 class App extends React.Component {
