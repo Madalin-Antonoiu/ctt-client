@@ -16,6 +16,9 @@ class MyHeader extends Component {
           <Menu.Item key="3">
             <Link to="/websocket">Websocket</Link>
           </Menu.Item>
+          <Menu.Item key="6">
+            <Link to="/exchangeInfo">ExchangeInfo</Link>
+          </Menu.Item>
           {/* <Link to="/feature">Feature</Link> */}
         </>
       );

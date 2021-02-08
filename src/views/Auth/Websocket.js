@@ -19,6 +19,7 @@ const Websocket = () => {
     return (
       <Col span={4}>
         <Card
+          key={coin.F}
           size="small"
           title={`${coin.s} - ${parseFloat(coin.c).toFixed(4)}`}
           bordered={true}
@@ -56,6 +57,7 @@ const Websocket = () => {
 
   return (
     <div className="site-card-wrapper">
+      {list.length}
       <Row gutter={36}>{list}</Row>
     </div>
   );

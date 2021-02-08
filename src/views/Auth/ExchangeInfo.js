@@ -21,12 +21,16 @@ const ExchangeInfo = (props) => {
 
   useEffect(
     () => {
+      console.log("Fetching market data.");
       postRequest().then((res) => {
         let USDTCoins = [];
 
         res.symbols?.map((symbol) => {
           if (symbol.quoteAsset === "USDT" && symbol.status === "TRADING") {
             USDTCoins = [...USDTCoins, symbol];
+          }
+          if (symbol.quoteAsset === "USDT" && symbol.status !== "TRADING") {
+            console.log(symbol);
           }
 
           return true;
