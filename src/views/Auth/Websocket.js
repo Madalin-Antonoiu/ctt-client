@@ -1,40 +1,43 @@
 import React, { useState, useEffect } from "react";
 import requireAuth from "../../components/requireAuth";
-import { Card, Col, Row } from "antd";
-import {
-  EditOutlined,
-  EllipsisOutlined,
-  SettingOutlined,
-} from "@ant-design/icons";
+import { Table } from "antd";
 
 const Websocket = () => {
   const [coins, setCoins] = useState([]);
 
-  function numberWithCommas(x) {
-    return parseInt(x)
-      .toString()
-      .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  }
-  const list = coins.map((coin) => {
-    return (
-      <Col span={4}>
-        <Card
-          key={coin.F}
-          size="small"
-          title={`${coin.s} - ${parseFloat(coin.c).toFixed(4)}`}
-          bordered={true}
-          actions={[
-            <SettingOutlined key="setting" />,
-            <EditOutlined key="edit" />,
-            <EllipsisOutlined key="ellipsis" />,
-          ]}
-        >
-          <div> {parseFloat(coin.P).toFixed(2)}%</div>
+  const columns = [
+    {
+      title: 'Coin',
+      dataIndex: 'coin',
+      sorter: (a, b) => a.coin < b.coin,
+      sortDirections: ['descend', 'ascend'],
+    },
+    {
+      title: '0m',
+      dataIndex: '_0m',
+      defaultSortOrder: 'descend',
+      sorter: (a, b) => a._0m.replace(/[!@#$%^&*]/g, "") - b._0m.replace(/[!@#$%^&*]/g, ""),
+    },
 
-          <div> Vol {numberWithCommas(coin.q)}$</div>
-        </Card>
-      </Col>
-    );
+
+  ];
+  const onChange = (pagination, filters, sorter, extra) => {
+    console.log('params', pagination, filters, sorter, extra);
+  }
+  // function numberWithCommas(x) {
+  //   return parseInt(x)
+  //     .toString()
+  //     .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  // }
+  const list = coins.map((each) => {
+    return {
+      key: `${each.coin}`,
+      coin: `${each.coin}`,
+      _0m: `${each.percentageDiff}`,
+    }
+    // title={`${each.coin} : ${each.percentageDiff} (${each.comparedTo})`}
+    //    <div> {parseFloat(each.priceNow)} vs {parseFloat(each.priceBackThen)}({each.timeBackThen})</div>
+
   });
 
   useEffect(() => {
@@ -44,7 +47,8 @@ const Websocket = () => {
       binanceSocket.send("Hi back!");
     };
     binanceSocket.onmessage = (event) => {
-      setCoins(JSON.parse(event.data));
+      const data = JSON.parse(event.data)
+      setCoins(data);
     };
     binanceSocket.onclose = () => {
       console.log("Closed");
@@ -58,7 +62,7 @@ const Websocket = () => {
   return (
     <div className="site-card-wrapper">
       {list.length}
-      <Row gutter={36}>{list}</Row>
+      <Table columns={columns} dataSource={list} onChange={onChange} />
     </div>
   );
 };
