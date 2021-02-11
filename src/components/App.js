@@ -64,8 +64,8 @@ class App extends React.Component {
               </Menu>
             </Sider>
           ) : (
-            ""
-          )}
+              ""
+            )}
           <Layout className="site-layout">
             <MyHeader style={{ padding: 0 }} />
             <Content style={{ margin: "0 16px" }}>
@@ -77,11 +77,10 @@ class App extends React.Component {
                   <Breadcrumb.Item>{this.getBreadcrumb()}</Breadcrumb.Item>
                 </Breadcrumb>
               ) : (
-                ""
-              )}
+                  ""
+                )}
               {this.props.children}
             </Content>
-            <Footer style={{ textAlign: "center" }}>Crypto Golem ©2021</Footer>
           </Layout>
         </Layout>
       </>
