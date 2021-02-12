@@ -5,7 +5,10 @@ import bxGitCompare from '@iconify-icons/bx/bx-git-compare';
 import { ClockCircleOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 
 
-const TrackTable = ({ dataSource, tagColor, time, footer, order, popoverTitle }) => {
+const TrackTable = ({ dataSource, tagColor, footer, selectedMinute, popoverTitle }) => {
+    const comparedToTime = dataSource[0].vs;
+    //let storageTime = comparedToTime.split(", ").slice(1); // get only hh:mm
+
     const reusableTitle = () => {
         return <>
             <b>+%</b>
@@ -14,10 +17,10 @@ const TrackTable = ({ dataSource, tagColor, time, footer, order, popoverTitle })
                     title={popoverTitle}
                     content={
                         <Timeline mode="left" style={{ marginRight: "6rem", marginTop: "2rem" }}>
-                            <Timeline.Item label={time} color="green" >Saved prices of all cryptocurrencies.</Timeline.Item>
+                            <Timeline.Item label={comparedToTime} color="green" >Saved prices of all cryptocurrencies.</Timeline.Item>
                             <Timeline.Item label="Every second" dot={<ClockCircleOutlined style={{ fontSize: '16px' }} />}>Receive new price data.</Timeline.Item>
                             <Timeline.Item label="Every second" dot={<ClockCircleOutlined style={{ fontSize: '16px' }} />} >Calculate the % difference between the two and display top five.</Timeline.Item>
-                            <Timeline.Item label={time + (Number(order) + 1)}>Repeat the cycle.</Timeline.Item>
+                            <Timeline.Item label={comparedToTime + (Number(selectedMinute) + 1)}>Repeat the cycle.</Timeline.Item>
                         </Timeline>
                     }
                     trigger="click">
@@ -33,7 +36,7 @@ const TrackTable = ({ dataSource, tagColor, time, footer, order, popoverTitle })
         },
         {
             title: reusableTitle(),
-            dataIndex: '_0m',
+            dataIndex: `_${selectedMinute}m`,
         },
 
     ];
@@ -42,10 +45,12 @@ const TrackTable = ({ dataSource, tagColor, time, footer, order, popoverTitle })
         <Divider plain>
             <Tag color={tagColor}>
                 <InlineIcon icon={bxGitCompare} />
-                {time}
+                {comparedToTime}
             </Tag>
         </Divider>
-        <Table className="my-table" columns={columns} dataSource={dataSource} size="small" pagination={false} footer={() => footer} />
+
+        {comparedToTime ? <Table className="my-table" columns={columns} dataSource={dataSource} size="small" pagination={false} footer={() => footer} /> : "Loading..."}
+
     </>
 }
 

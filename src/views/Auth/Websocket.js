@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import requireAuth from "../../components/requireAuth";
-import { Skeleton, Spin, Space, Row, Col, Timeline } from "antd";
+import { Skeleton, Spin, Row, Col, Alert, Empty } from "antd";
 import { LoadingOutlined } from '@ant-design/icons';
 import TrackTable from "../../components/TrackTable"
 
 const Websocket = () => {
   const [coins, setCoins] = useState([]);
+  const [error, setError] = useState("");
   const antIcon = <LoadingOutlined style={{ fontSize: 74 }} spin />;
   // const columns = [
   //   {
@@ -18,7 +19,7 @@ const Websocket = () => {
   //   {
   //     title: '0m',
   //     dataIndex: '_0m',
-  //     defaultSortOrder: 'ascend',
+  //     defaultSortselectedMinute: 'ascend',
   //     sortDirections: ['ascend', 'descend'],
   //     sorter: (a, b) => parseFloat(b._0m) - parseFloat(a._0m),
   //     key: 2
@@ -90,6 +91,7 @@ const Websocket = () => {
   //     .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   // }
   const P = (obj, time) => obj[time]?.percentageDiff ? Number(obj[time]?.percentageDiff) : <Skeleton.Avatar active={false} size={"small"} shape={"circle"} />// + "%"
+  const C = (obj, time) => obj[time]?.percentageDiff ? obj.coin?.replace("USDT", "") : <Skeleton.Avatar active={false} size={"small"} shape={"square"} />
   //const p = (each) => each["0m"]?.priceNow ? parseFloat(each["0m"].priceNow) : <Tag color="grey">None</Tag>
 
   // const list = coins
@@ -120,21 +122,31 @@ const Websocket = () => {
   // const shortCurrentTime = () => new Date().toLocaleTimeString([], { timeStyle: 'short' });
 
 
-  const currentMinuteList = coins
-    .sort((a, b) => b["0m"]?.percentageDiff - a["0m"]?.percentageDiff) // this is correct, vs sorting in the antd way
-    .filter((each) => !each.coin?.endsWith("DOWNUSDT"))
-    .filter((each) => !each.coin?.endsWith("UPUSDT"))
-    .slice(0, 5)
-    // .filter((each) => each["0m"].percentageDiff)
-    .map((each) => {
-      return {
-        key: each?.coin,
-        coin: each.coin?.replace("USDT", ""),
-        _0m: P(each, "0m"),
-        // price: p(each),
+  const constructList = (selectedMinute) => {
+    const percentageFor = "_" + selectedMinute;
+
+    return coins
+      .sort((a, b) => b[selectedMinute]?.percentageDiff - a[selectedMinute]?.percentageDiff) // this is correct, vs sorting in the antd way
+      .filter((each) => !each.coin?.endsWith("DOWNUSDT"))
+      .filter((each) => !each.coin?.endsWith("UPUSDT"))
+      .slice(0, 5) // top 5
+      .map((each) => {
+        return {
+          key: each?.coin,
+          coin: C(each, selectedMinute),
+          [percentageFor]: P(each, selectedMinute),
+          vs: each[selectedMinute]?.timeBackThen
+          // price: p(each),
+        }
       }
-    }
-    );
+      );
+  }
+
+  const currentMinuteList = constructList("0m");
+  const lastMinuteList = constructList("1m");
+  const lastThreeMinutesList = constructList("3m");
+  const lastFiveMinutesList = constructList("5m");
+  const lastFifteenMinutesList = constructList("15m");
 
   useEffect(() => {
     const binanceSocket = new WebSocket("ws://localhost:8080/");
@@ -144,11 +156,14 @@ const Websocket = () => {
     };
     binanceSocket.onmessage = (event) => {
       const data = JSON.parse(event.data)
-      // console.log(data);
-      setCoins(data);
+      if (data) setCoins(data);
+
     };
     binanceSocket.onclose = () => {
       console.log("Closed");
+    };
+    binanceSocket.onerror = (err) => {
+      setError(err);
     };
 
     return () => {
@@ -157,32 +172,100 @@ const Websocket = () => {
   }, []);
 
 
-
   return <div className="site-card-wrapper">
+    {error ?
+
+      <Row type="flex" justify="center" align="middle" style={{ minHeight: 'calc(100vh - 300px)' }}>
+        <Alert
+          message="WebSocket Error"
+          description="Could not connect to the WebSocket server."
+          type="error"
+          closable
+        />
+      </Row>
+
+      : ""
+    }
+
     {coins.length ? <div>
 
-      <Row>
-        <Col xs={8} sm={6} md={6} lg={4} xl={3}>
+      {/* {console.log(lastThreeMinutesList)} */}
+
+      <Row gutter={25}>
+        <Col xs={10} sm={8} md={6} lg={4} xl={3} name="0m-ago">
 
           <TrackTable
             dataSource={currentMinuteList}
-            footer={<sub>* compared to current minute start</sub>}
-            tagColor="purple"
-            time={coins[0]["0m"].timeBackThen}
-            popoverTitle="Top Five Current Minute Performers"
-            order="0"
+            selectedMinute="0"
+            footer={<sub>* compared to this min :00</sub>}
+            tagColor="red"
+            popoverTitle="Top Performance This Minute "
           />
 
         </Col>
+        <Col xs={10} sm={8} md={6} lg={4} xl={3} name="1m-ago">
+
+          <TrackTable
+            dataSource={lastMinuteList}
+            selectedMinute="1"
+            footer={<sub>* compared to 1m ago</sub>}
+            tagColor="orange"
+            popoverTitle="Top Performance vs. Last Minute "
+          />
+
+        </Col>
+        <Col xs={8} sm={6} md={6} lg={4} xl={3} offset={8} name="3m-ago">
+
+          <TrackTable
+            dataSource={lastThreeMinutesList}
+            selectedMinute="3"
+            footer={<sub>* compared to 3m ago</sub>}
+            tagColor="yellow"
+            popoverTitle="Top Performance vs 3Min Ago "
+          />
+
+        </Col>
+        <Col xs={8} sm={6} md={6} lg={4} xl={3} name="5m-ago">
+
+          <TrackTable
+            dataSource={lastFiveMinutesList}
+            selectedMinute="5"
+            footer={<sub>* compared to 5m ago</sub>}
+            tagColor="skyblue"
+            popoverTitle="Top Performance vs. 5Min Ago "
+          />
+
+        </Col>
+        <Col xs={8} sm={6} md={6} lg={4} xl={3} name="15m-ago">
+
+          <TrackTable
+            dataSource={lastFifteenMinutesList}
+            selectedMinute="15"
+            footer={<sub>* compared to 15m ago</sub>}
+            tagColor="limegreen"
+            popoverTitle="Top Performance vs 15Min Ago "
+          />
+
+        </Col>
+
       </Row>
 
     </div>
-      : <Row type="flex" justify="center" align="middle" style={{ minHeight: 'calc(100vh - 184px)' }}>
-        <Space size="middle">
-          <Spin indicator={antIcon} />
-        </Space>
-      </Row>
+      : <div>
 
+        {!error ?
+          //If no error and still no data, show spinner..
+          <Row type="flex" justify="center" align="middle" style={{ minHeight: 'calc(100vh - 200px)' }}>
+            <Spin indicator={antIcon} />
+          </Row>
+
+          :
+
+          <Empty />
+
+        }
+
+      </div>
     }
 
   </div>
