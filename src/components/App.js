@@ -1,19 +1,18 @@
 import React from "react";
 import MyHeader from "./Header";
 import "./App.css";
-import { Layout, Menu, Breadcrumb } from "antd";
+import { Layout, Menu } from "antd";
 import {
   DesktopOutlined,
   PieChartOutlined,
-  FileOutlined,
-  TeamOutlined,
   UserOutlined,
+  LoginOutlined
 } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
-const { Content, Footer, Sider } = Layout;
-const { SubMenu } = Menu;
+const { Content, Sider } = Layout;
+
 
 class App extends React.Component {
   state = {
@@ -35,50 +34,34 @@ class App extends React.Component {
     return (
       <>
         <Layout style={{ minHeight: "100vh" }}>
-          {this.props.authenticated ? (
-            <Sider
-              collapsible
-              collapsed={collapsed}
-              onCollapse={this.onCollapse}
-            >
-              <div className="logo" />
-              <Menu theme="dark" defaultSelectedKeys={["1"]} mode="inline">
+          <Sider
+            collapsible
+            collapsed={collapsed}
+            onCollapse={this.onCollapse}
+          >
+            <div className="logo" />
+            <Menu theme="dark" mode="inline">
+              {this.props.authenticated ? (<>
                 <Menu.Item key="1" icon={<PieChartOutlined />}>
                   Dashboard
-                </Menu.Item>
+                  </Menu.Item>
                 <Menu.Item key="2" icon={<DesktopOutlined />}>
                   Automation
-                </Menu.Item>
-                <SubMenu key="sub1" icon={<UserOutlined />} title="User">
-                  <Menu.Item key="3">Tom</Menu.Item>
-                  <Menu.Item key="4">Bill</Menu.Item>
-                  <Menu.Item key="5">Alex</Menu.Item>
-                </SubMenu>
-                <SubMenu key="sub2" icon={<TeamOutlined />} title="Team">
-                  <Menu.Item key="6">Team 1</Menu.Item>
-                  <Menu.Item key="8">Team 2</Menu.Item>
-                </SubMenu>
-                <Menu.Item key="9" icon={<FileOutlined />}>
-                  Files
-                </Menu.Item>
-              </Menu>
-            </Sider>
-          ) : (
-              ""
-            )}
-          <Layout className="site-layout">
-            <MyHeader style={{ padding: 0 }} />
-            <Content style={{ margin: "0 16px" }}>
-              {this.props.authenticated ? (
-                <Breadcrumb style={{ margin: "16px 0" }}>
-                  <Breadcrumb.Item>
-                    <Link to="/">Home</Link>
-                  </Breadcrumb.Item>
-                  <Breadcrumb.Item>{this.getBreadcrumb()}</Breadcrumb.Item>
-                </Breadcrumb>
-              ) : (
-                  ""
+                  </Menu.Item>
+
+                <Menu.Item key="2" icon={<UserOutlined />}>
+                  User
+                  </Menu.Item>
+              </>
+              ) : (<Menu.Item key="9" icon={<LoginOutlined />}>
+                Sign In
+              </Menu.Item>
                 )}
+            </Menu>
+          </Sider>
+          <Layout className="site-layout">
+            {/* <MyHeader style={{ padding: 0 }} /> */}
+            <Content style={{ margin: "0 16px" }}>
               {this.props.children}
             </Content>
           </Layout>

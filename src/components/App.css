@@ -2,6 +2,22 @@
 
 .logo {
   height: 28px;
-  width: 35px;
   margin: 16px;
+  background-color: grey;
+  opacity: 0.3;
+}
+
+.my-table td {
+  min-width: 4rem;
+}
+
+/* .my-table tr:first-child td {
+  background: red;
+} */
+
+.ant-popover-inner-content {
+  padding: 0;
+}
+.ant-popover-title {
+  text-align: center;
 }
