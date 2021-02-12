@@ -197,7 +197,7 @@ const Websocket = () => {
           <TrackTable
             dataSource={currentMinuteList}
             selectedMinute="0"
-            footer={<sub>* compared to this min :00</sub>}
+            footer={<sub>* compared to this min start </sub>}
             tagColor="red"
             popoverTitle="Top Performance This Minute "
           />
