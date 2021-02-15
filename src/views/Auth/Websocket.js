@@ -4,6 +4,8 @@ import { Skeleton, Spin, Row, Col, Alert, Empty, Space, Table, Tag } from "antd"
 import { LoadingOutlined } from '@ant-design/icons';
 import TrackTable from "../../components/TrackTable"
 import MyAutoComplete from "../../components/MyAutoComplete"
+import EditableTable from "../../components/EditableTable"
+
 
 const Websocket = () => {
   const [coins, setCoins] = useState([]);
@@ -265,6 +267,8 @@ const Websocket = () => {
           <MyAutoComplete data={coins} />
 
           <Table columns={columns} dataSource={list} size="small" pagination={false} />
+
+          <EditableTable />
         </Space>
 
       </Row>
