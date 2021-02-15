@@ -5,7 +5,8 @@ import {
   DesktopOutlined,
   PieChartOutlined,
   LoginOutlined,
-  LogoutOutlined
+  LogoutOutlined,
+  HomeOutlined
 } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
@@ -41,6 +42,11 @@ class App extends React.Component {
             <div className="logo" />
             <Menu theme="dark" mode="inline">
               {this.props.authenticated ? (<>
+
+                <Menu.Item key="0" icon={<HomeOutlined />} defaultSelectedKeys={['1']}>
+                  <Link to="/">Home</Link>
+                </Menu.Item>
+
                 <Menu.Item key="1" icon={<PieChartOutlined />} defaultSelectedKeys={['1']}>
                   <Link to="/websocket">Websocket</Link>
                 </Menu.Item>

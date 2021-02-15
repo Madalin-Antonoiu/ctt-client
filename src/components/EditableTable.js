@@ -1,74 +1,77 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Button, Popconfirm, Tag, Skeleton, Divider } from 'antd';
 import MyAutoComplete from "../components/MyAutoComplete"
-import { InlineIcon } from '@iconify/react';
-import favoriteIcon from '@iconify-icons/uil/favorite';
+import { DeleteOutlined, StarOutlined } from '@ant-design/icons';
+
 
 const EditableTable = ({ coins }) => {
-
-  // const data = [{
-  //   key: '0',
-  //   name: 'Edward King 0',
-  //   age: '32',
-  //   address: 'London, Park Lane no. 0',
-  // },
-  // {
-  //   key: '1',
-  //   name: 'Edward King 1',
-  //   age: '32',
-  //   address: 'London, Park Lane no. 1',
-  // }]
 
   const P = (obj, time) => obj[time]?.percentageDiff ? Number(obj[time]?.percentageDiff) : <Skeleton.Avatar active={false} size={"small"} shape={"circle"} />// + "%"
   const p = (each) => each["0m"]?.priceNow ? parseFloat(each["0m"].priceNow) : <Tag color="grey">None</Tag>
 
-  // const list = coins
-  //   //.sort((a, b) =>  b["0m"]?.percentageDiff - a["0m"]?.percentageDiff) // b-a descending (bigger first)
-  //   .filter((each) => each.coin === "BTCUSDT")
-  //   .map((each) => {
-  //     return {
-  //       key: each.key,
-  //       coin: each.coin?.replace("USDT", ""),
-  //       _0m: P(each, "0m"),
-  //       _1m: P(each, "1m"),
-  //       _3m: P(each, "3m"),
-  //       _5m: P(each, "5m"),
-  //       _10m: P(each, "10m"),
-  //       _15m: P(each, "15m"),
-  //       _30m: P(each, "30m"),
-  //       _60m: P(each, "60m"),
-  //       price: p(each),
-  //     }
-  //     // title={`${each.coin} : ${each.percentageDiff} (${each.comparedTo})`}
-  //     //    <div> {parseFloat(each.priceNow)} vs {parseFloat(each.priceBackThen)}({each.timeBackThen})</div>
 
-  //   }
-  //   );
 
+  const favs = ""; // ["ETHUSDT", "BTCUSDT"]
+  const [favorite, setFavorite] = useState(favs);// take them from localStorage as strings later on
+
+  const list = favorite !== "" ? coins
+    //.sort((a, b) =>  b["0m"]?.percentageDiff - a["0m"]?.percentageDiff) // b-a descending (bigger first)
+    // eslint-disable-next-line array-callback-return
+    .filter((each) => {
+
+      for (let i = 0; i < favorite.length; i++) {
+        if (each.coin === favorite[i]) {
+          return each
+        }
+      }
+
+    }
+    )
+    .map((each) => {
+      return {
+        key: each.key,
+        coin: each.coin?.replace("USDT", ""),
+        _0m: P(each, "0m"),
+        _1m: P(each, "1m"),
+        _3m: P(each, "3m"),
+        _5m: P(each, "5m"),
+        _10m: P(each, "10m"),
+        _15m: P(each, "15m"),
+        _30m: P(each, "30m"),
+        _60m: P(each, "60m"),
+        price: p(each),
+      }
+      // title={`${each.coin} : ${each.percentageDiff} (${each.comparedTo})`}
+      //    <div> {parseFloat(each.priceNow)} vs {parseFloat(each.priceBackThen)}({each.timeBackThen})</div>
+
+    }) : "";
 
   const [dataSource, setDataSource] = useState([]); // useState(list);
-  const [count, setCount] = useState(2);
 
-  const handleDelete = (key) => {
-    setDataSource([...dataSource].filter((item) => item.key !== key));
-  };
-  const handleAdd = () => {
-    const newData = {
-      key: count + 1,
-      name: `Edward King ${count + 1}`,
-      age: '32',
-      address: `London, Park Lane no. ${count}`,
-    };
-    let updated = [...dataSource, newData]
-    setDataSource(updated)
-    setCount(count + 1);
 
+  const handleDelete = async (key) => {
+    setFavorite([...favorite].filter((item) => item !== key))    // console.log(key);
   };
 
-  const handleAddFromAutoCompleteInput = (data) => {
-    console.log(data)// i only get name from the autocompleter, find the name in my actual list
+
+  const handleAddFromAutoCompleteInput = async (data) => {
+
+    //Update the favorites
+    setFavorite([...favorite, data])
+
+    //Find only those that match my favorite strings
     const found = coins
-      .filter((each) => each.key === data)
+      //.sort((a, b) =>  b["0m"]?.percentageDiff - a["0m"]?.percentageDiff) // b-a descending (bigger first)
+      // eslint-disable-next-line array-callback-return
+      .filter((each) => {
+        for (let i = 0; i < favorite.length; i++) {
+          if (each.coin === favorite[i]) {
+            return each
+          }
+        }
+
+      }
+      )
       .map((each) => {
         return {
           key: each.key,
@@ -83,44 +86,19 @@ const EditableTable = ({ coins }) => {
           _60m: P(each, "60m"),
           price: p(each),
         }
-      })[0]
+        // title={`${each.coin} : ${each.percentageDiff} (${each.comparedTo})`}
+        //    <div> {parseFloat(each.priceNow)} vs {parseFloat(each.priceBackThen)}({each.timeBackThen})</div>
 
-    const updated = [...dataSource, found]
-    console.log(updated);
+      }
+      );
 
-    setDataSource(updated)
-    console.log(dataSource);
-    setCount(count + 1);
+
+    //Update the  dataSource
+    setDataSource([...dataSource, found])
+
+
 
   }
-
-  //Old
-  // const columns = [
-  //   {
-  //     title: 'name',
-  //     dataIndex: 'name',
-  //     width: '30%',
-  //   },
-  //   {
-  //     title: 'age',
-  //     dataIndex: 'age',
-  //   },
-  //   {
-  //     title: 'address',
-  //     dataIndex: 'address',
-  //   },
-  //   {
-  //     title: 'operation',
-  //     dataIndex: 'operation',
-  //     render: (_, record) =>
-  //       dataSource.length >= 1 ? (
-  //         <Popconfirm title="Sure to delete?" onConfirm={() => handleDelete(record.key)}>
-  //           <Button type="link">Delete</Button>
-  //         </Popconfirm>
-  //       ) : null,
-  //   },
-  // ];
-
 
   const columns = [
     {
@@ -201,38 +179,31 @@ const EditableTable = ({ coins }) => {
       render: (_, record) =>
         dataSource.length >= 1 ? (
           <Popconfirm title="Sure to delete?" onConfirm={() => handleDelete(record.key)}>
-            <Button type="link">Delete</Button>
+            <Button type="link" icon={<DeleteOutlined />}></Button>
+
           </Popconfirm>
         ) : null,
     },
   ];
 
-  // useEffect(() => {
+  useEffect(() => {
+    setDataSource(list)
+  },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [coins])
 
-  // }, [list])
 
   return (
     <>
 
       <Divider plain>
         <Tag color={"red"}>
-          <InlineIcon icon={favoriteIcon} />
+          <StarOutlined /> {" "}
              Track Favorites
         </Tag>
       </Divider>
 
-
-      <MyAutoComplete data={coins} onChangeLetParentKnow={handleAddFromAutoCompleteInput} />
-
-      <Button
-        onClick={handleAdd}
-        type="primary"
-        style={{
-          marginBottom: 16,
-        }}
-      >
-        Add a row
-        </Button>
+      <div> <MyAutoComplete data={coins} onChangeLetParentKnow={handleAddFromAutoCompleteInput} /> </div>
 
       <Table
         dataSource={dataSource}

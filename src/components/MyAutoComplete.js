@@ -20,7 +20,7 @@ const MyAutoComplete = ({ data, onChangeLetParentKnow }) => {
     const [value, setValue] = useState('');
     const [options, setOptions] = useState([]);
 
-    const myFilter = (str, list) => list.filter((each) => each.value?.includes(str.toUpperCase()))
+    const myFilter = (str, list) => list.filter((each) => each.value?.startsWith(str.toUpperCase())) // startsWith entered key, or endsWith, or includesit etc
     const onSearch = (searchText) => {
         setOptions(
             !searchText ? [] : myFilter(searchText, list),
@@ -30,6 +30,7 @@ const MyAutoComplete = ({ data, onChangeLetParentKnow }) => {
     const onSelect = (data) => {
         console.log('onSelect', data);
         onChangeLetParentKnow(data);
+        setValue("");
     };
 
     const onChange = (data) => {
@@ -48,7 +49,7 @@ const MyAutoComplete = ({ data, onChangeLetParentKnow }) => {
                 onSelect={onSelect}
                 onSearch={onSearch}
                 onChange={onChange}
-                placeholder="control mode"
+                placeholder="Track a coin"
             />
         </>
     );
