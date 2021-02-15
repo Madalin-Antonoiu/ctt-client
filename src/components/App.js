@@ -1,12 +1,11 @@
 import React from "react";
-import MyHeader from "./Header";
 import "./App.css";
 import { Layout, Menu } from "antd";
 import {
   DesktopOutlined,
   PieChartOutlined,
-  UserOutlined,
-  LoginOutlined
+  LoginOutlined,
+  LogoutOutlined
 } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
@@ -42,19 +41,24 @@ class App extends React.Component {
             <div className="logo" />
             <Menu theme="dark" mode="inline">
               {this.props.authenticated ? (<>
-                <Menu.Item key="1" icon={<PieChartOutlined />}>
-                  Dashboard
-                  </Menu.Item>
-                <Menu.Item key="2" icon={<DesktopOutlined />}>
-                  Automation
-                  </Menu.Item>
+                <Menu.Item key="1" icon={<PieChartOutlined />} defaultSelectedKeys={['1']}>
+                  <Link to="/websocket">Websocket</Link>
+                </Menu.Item>
 
-                <Menu.Item key="2" icon={<UserOutlined />}>
-                  User
-                  </Menu.Item>
+
+                <Menu.Item key="3" icon={<DesktopOutlined />}>
+                  <Link to="/exchangeInfo">ExchangeInfo</Link>
+                </Menu.Item>
+
+                <Menu.Item key="2" icon={< LogoutOutlined />}>
+                  <Link to="/signout">SignOut</Link>
+                </Menu.Item>
+
+
               </>
               ) : (<Menu.Item key="9" icon={<LoginOutlined />}>
-                Sign In
+                <Link to="/signin">  Sign In</Link>
+
               </Menu.Item>
                 )}
             </Menu>

@@ -7,7 +7,7 @@ import { ClockCircleOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 
 const TrackTable = ({ dataSource, tagColor, footer, selectedMinute, popoverTitle }) => {
     const comparedToTime = dataSource[0].vs;
-    const localeTimeString = new Date(comparedToTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    const localeTimeString = dataSource[0].vs?.split(", ").slice(1)[0];
 
     const d = new Date(comparedToTime);
     var v = new Date();
@@ -51,7 +51,7 @@ const TrackTable = ({ dataSource, tagColor, footer, selectedMinute, popoverTitle
         <Divider plain>
             <Tag color={tagColor}>
                 <InlineIcon icon={bxGitCompare} />
-                {localeTimeString.replace(/:\d+ /, ' ')}
+                {localeTimeString}
             </Tag>
         </Divider>
 
