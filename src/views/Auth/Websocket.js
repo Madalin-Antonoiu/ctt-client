@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import requireAuth from "../../components/requireAuth";
-import { Skeleton, Spin, Row, Col, Alert, Empty, Space } from "antd";
+import { Skeleton, Spin, Row, Col, Alert, Empty, Card } from "antd";
 import { LoadingOutlined } from '@ant-design/icons';
 import TrackTable from "../../components/TrackTable"
 import EditableTable from "../../components/EditableTable"
@@ -18,6 +18,11 @@ const Websocket = () => {
   // }
   const P = (obj, time) => obj[time]?.percentageDiff ? Number(obj[time]?.percentageDiff) : <Skeleton.Avatar active={false} size={"small"} shape={"circle"} />// + "%"
   const C = (obj, time) => obj[time]?.percentageDiff ? obj.coin?.replace("USDT", "") : <Skeleton.Avatar active={false} size={"small"} shape={"square"} />
+  const coin = (each) => {
+    const coin = each.coin?.replace("USDT", "");
+    const link = `https://www.binance.com/en/trade/${coin}_USDT?layout=pro`
+    return <a href={link} target="_blank" style={{ color: "#39CCCC" }}>{coin}</a>
+  }
 
   const constructList = (selectedMinute) => {
     const percentageFor = "_" + selectedMinute;
@@ -32,7 +37,8 @@ const Websocket = () => {
       .map((each) => {
         return {
           key: each?.coin,
-          coin: C(each, selectedMinute),
+          // coin: C(each, selectedMinute),
+          coin: coin(each),
           [percentageFor]: P(each, selectedMinute),
           vs: each[selectedMinute]?.timeBackThen
           // price: p(each),
@@ -162,13 +168,17 @@ const Websocket = () => {
 
       </Row>
 
-      <Row style={{ marginBlock: "2rem" }}>
-        <Space direction="vertical">
+      <Row style={{ marginBlock: "2rem" }} gutter={20}>
 
-
+        <Col xs={24} sm={24} md={13} lg={13} xl={13} name="0m-ago">
           <EditableTable coins={coins} />
+        </Col>
 
-        </Space>
+        <Col xs={24} sm={24} md={10} lg={10} xl={10} name="0m-ago">
+          <Card>Hi</Card>
+        </Col>
+
+
 
       </Row>
 

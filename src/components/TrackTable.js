@@ -3,6 +3,7 @@ import { Table, Tag, Divider, Popover, Timeline, Empty } from "antd";
 import { InlineIcon } from '@iconify/react';
 import bxGitCompare from '@iconify-icons/bx/bx-git-compare';
 import { ClockCircleOutlined, QuestionCircleOutlined } from '@ant-design/icons';
+import "./TrackTable.css"
 
 
 const TrackTable = ({ dataSource, tagColor, footer, selectedMinute, popoverTitle }) => {

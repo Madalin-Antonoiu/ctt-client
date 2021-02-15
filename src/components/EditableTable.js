@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Button, Popconfirm, Tag, Skeleton, Divider } from 'antd';
+import { Table, Button, Popconfirm, Tag, Skeleton, Divider, Tooltip } from 'antd';
 import MyAutoComplete from "../components/MyAutoComplete"
-import { DeleteOutlined, StarOutlined } from '@ant-design/icons';
+import { DeleteOutlined, StarOutlined, AlertOutlined } from '@ant-design/icons';
 import "./EditableTable.css"
 
 
@@ -15,6 +15,11 @@ const EditableTable = ({ coins }) => {
   const favs = ""; // ["ETHUSDT", "BTCUSDT"]
   const [favorite, setFavorite] = useState(favs);// take them from localStorage as strings later on
 
+  const coin = (each) => {
+    const coin = each.coin?.replace("USDT", "");
+    const link = `https://www.binance.com/en/trade/${coin}_USDT?layout=pro`
+    return <a href={link} target="_blank">{coin}</a>
+  }
   const list = favorite !== "" ? coins
     //.sort((a, b) =>  b["0m"]?.percentageDiff - a["0m"]?.percentageDiff) // b-a descending (bigger first)
     // eslint-disable-next-line array-callback-return
@@ -31,7 +36,7 @@ const EditableTable = ({ coins }) => {
     .map((each) => {
       return {
         key: each.key,
-        coin: each.coin?.replace("USDT", ""),
+        coin: coin(each),
         _0m: P(each, "0m"),
         _1m: P(each, "1m"),
         _3m: P(each, "3m"),
@@ -179,10 +184,19 @@ const EditableTable = ({ coins }) => {
       dataIndex: 'action',
       render: (_, record) =>
         dataSource.length >= 1 ? (
-          <Popconfirm title="Sure to delete?" onConfirm={() => handleDelete(record.key)}>
-            <Button type="link" icon={<DeleteOutlined />}></Button>
+          <div>
+            <Popconfirm title="Sure to untrack?" onConfirm={() => handleDelete(record.key)}>
+              <Tooltip title="Untrack">
+                <Button type="link" icon={<DeleteOutlined style={{ color: "red" }} />}></Button>
+              </Tooltip>
+            </Popconfirm>
 
-          </Popconfirm>
+            <Popconfirm title="Sure to set alarm?" onConfirm={() => handleDelete(record.key)}>
+              <Tooltip title="Set Alarm">
+                <Button type="link" icon={<AlertOutlined style={{ color: "orange" }} />}></Button>
+              </Tooltip>
+            </Popconfirm>
+          </div>
         ) : null,
     },
   ];
@@ -200,7 +214,6 @@ const EditableTable = ({ coins }) => {
         <Tag color={"#001f3f"}>
           <StarOutlined /> {" "}
              Track Favorites
-
         </Tag>
         <MyAutoComplete data={coins} onChangeLetParentKnow={handleAddFromAutoCompleteInput} />
 

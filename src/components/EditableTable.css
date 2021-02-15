@@ -2,3 +2,7 @@
   min-width: 90px;
   color: #001f3f;
 }
+
+#my-editable-table tr td {
+  padding: 2px;
+}
