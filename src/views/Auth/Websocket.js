@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import requireAuth from "../../components/requireAuth";
-import { Skeleton, Spin, Row, Col, Alert, Empty, Space, Table, Tag } from "antd";
+import { Skeleton, Spin, Row, Col, Alert, Empty, Space } from "antd";
 import { LoadingOutlined } from '@ant-design/icons';
 import TrackTable from "../../components/TrackTable"
-import MyAutoComplete from "../../components/MyAutoComplete"
 import EditableTable from "../../components/EditableTable"
 
 
@@ -11,83 +10,6 @@ const Websocket = () => {
   const [coins, setCoins] = useState([]);
   const [error, setError] = useState("");
   const antIcon = <LoadingOutlined style={{ fontSize: 74 }} spin />;
-  const columns = [
-    {
-      title: 'Coin',
-      dataIndex: 'coin',
-      sorter: (a, b) => a.coin?.localeCompare(b.coin), // alphabetical sort (antd)
-      sortDirections: ['ascend', 'descend'],
-      key: 1
-    },
-    {
-      title: 'Price',
-      dataIndex: 'price',
-      sortDirections: ['ascend', 'descend'],
-      sorter: (a, b) => b.price - a.price,
-      key: 10
-    },
-    {
-      title: '0m',
-      dataIndex: '_0m',
-      defaultSortselectedMinute: 'ascend',
-      sortDirections: ['ascend', 'descend'],
-      sorter: (a, b) => parseFloat(b._0m) - parseFloat(a._0m),
-      key: 2
-    },
-    {
-      title: '1m',
-      dataIndex: '_1m',
-      sortDirections: ['ascend', 'descend'],
-      sorter: (a, b) => b._1m - a._1m,
-      key: 3
-    },
-    {
-      title: '3m',
-      dataIndex: '_3m',
-      sortDirections: ['ascend', 'descend'],
-      sorter: (a, b) => b._3m - a._3m,
-      key: 4
-
-    },
-    {
-      title: '5m',
-      dataIndex: '_5m',
-      sortDirections: ['ascend', 'descend'],
-      sorter: (a, b) => b._5m - a._5m,
-      key: 5
-    },
-    {
-      title: '10m',
-      dataIndex: '_10m',
-      sortDirections: ['ascend', 'descend'],
-      sorter: (a, b) => b._10m - a._10m,
-      key: 6
-    },
-    {
-      title: '15m',
-      dataIndex: '_15m',
-      sortDirections: ['ascend', 'descend'],
-      sorter: (a, b) => b._15m - a._15m,
-      key: 7
-    },
-    {
-      title: '30m',
-      dataIndex: '_30m',
-      sortDirections: ['ascend', 'descend'],
-      sorter: (a, b) => b._30m - a._30m,
-      key: 8
-    },
-    {
-      title: '60m',
-      dataIndex: '_60m',
-      sortDirections: ['ascend', 'descend'],
-      sorter: (a, b) => b._60m - a._60m,
-      key: 9
-    },
-
-
-  ];
-
 
   // function numberWithCommas(x) {
   //   return parseInt(x)
@@ -96,7 +18,6 @@ const Websocket = () => {
   // }
   const P = (obj, time) => obj[time]?.percentageDiff ? Number(obj[time]?.percentageDiff) : <Skeleton.Avatar active={false} size={"small"} shape={"circle"} />// + "%"
   const C = (obj, time) => obj[time]?.percentageDiff ? obj.coin?.replace("USDT", "") : <Skeleton.Avatar active={false} size={"small"} shape={"square"} />
-  const p = (each) => each["0m"]?.priceNow ? parseFloat(each["0m"].priceNow) : <Tag color="grey">None</Tag>
 
   const constructList = (selectedMinute) => {
     const percentageFor = "_" + selectedMinute;
@@ -119,27 +40,7 @@ const Websocket = () => {
       }
       );
   }
-  const list = coins
-    //.sort((a, b) =>  b["0m"]?.percentageDiff - a["0m"]?.percentageDiff) // b-a descending (bigger first)
-    .filter((each) => each.coin === "BTCUSDT")
-    .map((each) => {
-      return {
-        coin: each.coin?.replace("USDT", ""),
-        _0m: P(each, "0m"),
-        _1m: P(each, "1m"),
-        _3m: P(each, "3m"),
-        _5m: P(each, "5m"),
-        _10m: P(each, "10m"),
-        _15m: P(each, "15m"),
-        _30m: P(each, "30m"),
-        _60m: P(each, "60m"),
-        price: p(each),
-      }
-      // title={`${each.coin} : ${each.percentageDiff} (${each.comparedTo})`}
-      //    <div> {parseFloat(each.priceNow)} vs {parseFloat(each.priceBackThen)}({each.timeBackThen})</div>
 
-    }
-    );
 
   const currentMinuteList = constructList("0m");
   const lastMinuteList = constructList("1m");
@@ -264,11 +165,9 @@ const Websocket = () => {
       <Row style={{ marginBlock: "2rem" }}>
         <Space direction="vertical">
 
-          <MyAutoComplete data={coins} />
 
-          <Table columns={columns} dataSource={list} size="small" pagination={false} />
+          <EditableTable coins={coins} />
 
-          <EditableTable />
         </Space>
 
       </Row>

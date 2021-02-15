@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { AutoComplete } from 'antd';
 
 
-const MyAutoComplete = ({ data }) => {
+const MyAutoComplete = ({ data, onChangeLetParentKnow }) => {
+    //console.log(onChangeLetParentKnow)
 
     const list = data
         .filter((each) => !each.coin?.endsWith("DOWNUSDT"))
@@ -28,6 +29,7 @@ const MyAutoComplete = ({ data }) => {
 
     const onSelect = (data) => {
         console.log('onSelect', data);
+        onChangeLetParentKnow(data);
     };
 
     const onChange = (data) => {
