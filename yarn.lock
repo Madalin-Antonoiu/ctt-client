@@ -1227,6 +1227,11 @@
   resolved "https://registry.yarnpkg.com/@iconify-icons/bx/-/bx-1.1.0.tgz#7c248552375b7a3faba9fee0a632b650336cffdf"
   integrity sha512-JlCsrgpp4vujb7tDaZtJ/OfeTnsSFyDFSauNO+2ilsHviCb/u3VXbLjdIoDIR5ISGMr0a+W/f0YNOHn3zUqChA==
 
+"@iconify-icons/uil@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@iconify-icons/uil/-/uil-1.1.1.tgz#6e7185b73d47eae79f7bf308909e1d59a12a34db"
+  integrity sha512-HdSyOZzEPwh2549jpL2YrLkuR4aYRRF47gDRuZcSRRFdgbkmlpGDSSQ1G1PR9E/a3Igg7j9XdIK9HffTFJP0Lg==
+
 "@iconify/react@^1.1.4":
   version "1.1.4"
   resolved "https://registry.yarnpkg.com/@iconify/react/-/react-1.1.4.tgz#c778eddbaf196e55705d0bedff00d039dc1de8d3"
