@@ -44,12 +44,14 @@ const MyAutoComplete = ({ data, onChangeLetParentKnow }) => {
                 value={value}
                 options={options}
                 style={{
-                    width: 200,
+                    width: 109,
+                    height: 20,
+                    padding: 0
                 }}
                 onSelect={onSelect}
                 onSearch={onSearch}
                 onChange={onChange}
-                placeholder="Track a coin"
+                placeholder="Search here.."
             />
         </>
     );

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Table, Button, Popconfirm, Tag, Skeleton, Divider } from 'antd';
 import MyAutoComplete from "../components/MyAutoComplete"
 import { DeleteOutlined, StarOutlined } from '@ant-design/icons';
+import "./EditableTable.css"
 
 
 const EditableTable = ({ coins }) => {
@@ -195,22 +196,30 @@ const EditableTable = ({ coins }) => {
 
   return (
     <>
-
-      <Divider plain>
-        <Tag color={"red"}>
+      <Divider plain style={{ userSelect: "none" }}>
+        <Tag color={"#001f3f"}>
           <StarOutlined /> {" "}
              Track Favorites
+
         </Tag>
+        <MyAutoComplete data={coins} onChangeLetParentKnow={handleAddFromAutoCompleteInput} />
+
       </Divider>
 
-      <div> <MyAutoComplete data={coins} onChangeLetParentKnow={handleAddFromAutoCompleteInput} /> </div>
 
-      <Table
-        dataSource={dataSource}
-        columns={columns}
-        pagination={false}
-        size="small"
-      />
+      <div id="my-editable-table">
+        <Table
+          dataSource={dataSource}
+          columns={columns}
+          pagination={false}
+          size="small"
+          expandable={{
+            expandedRowRender: record => <p style={{ margin: 0 }}>{record.key}</p>,
+            rowExpandable: record => record.name !== 'Not Expandable',
+          }}
+          style={{ userSelect: "none" }}
+        />
+      </div>
       {/* columns={columns} dataSource={list} */}
     </>
   );
