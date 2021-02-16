@@ -15,7 +15,7 @@ const EditableTable = ({ coins }) => {
   const coin = (each) => {
     const coin = each.coin?.replace("USDT", "");
     const link = `https://www.binance.com/en/trade/${coin}_USDT?layout=pro`
-    return <a href={link} target="_blank">{coin}</a>
+    return <a href={link} target="_blank" rel="noreferrer">{coin}</a>
   }
 
   const list = coins

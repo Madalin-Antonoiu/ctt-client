@@ -17,11 +17,11 @@ const Websocket = () => {
   //     .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   // }
   const P = (obj, time) => obj[time]?.percentageDiff ? Number(obj[time]?.percentageDiff) : <Skeleton.Avatar active={false} size={"small"} shape={"circle"} />// + "%"
-  const C = (obj, time) => obj[time]?.percentageDiff ? obj.coin?.replace("USDT", "") : <Skeleton.Avatar active={false} size={"small"} shape={"square"} />
+  // const C = (obj, time) => obj[time]?.percentageDiff ? obj.coin?.replace("USDT", "") : <Skeleton.Avatar active={false} size={"small"} shape={"square"} />
   const coin = (each) => {
     const coin = each.coin?.replace("USDT", "");
     const link = `https://www.binance.com/en/trade/${coin}_USDT?layout=pro`
-    return <a href={link} target="_blank" style={{ color: "#39CCCC" }}>{coin}</a>
+    return <a href={link} target="_blank" rel="noreferrer" style={{ color: "#39CCCC" }}>{coin}</a>
   }
 
   const constructList = (selectedMinute) => {
