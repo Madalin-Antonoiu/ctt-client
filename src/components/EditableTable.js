@@ -6,25 +6,22 @@ import "./EditableTable.css"
 
 
 const EditableTable = ({ coins }) => {
+  const [favorite, setFavorite] = useState(JSON.parse(localStorage.getItem('favs')));
+  const [dataSource, setDataSource] = useState([]);
 
   const P = (obj, time) => obj[time]?.percentageDiff ? Number(obj[time]?.percentageDiff) : <Skeleton.Avatar active={false} size={"small"} shape={"circle"} />// + "%"
   const p = (each) => each["0m"]?.priceNow ? parseFloat(each["0m"].priceNow) : <Tag color="grey">None</Tag>
-
-
-
-  const favs = ""; // ["ETHUSDT", "BTCUSDT"]
-  const [favorite, setFavorite] = useState(favs);// take them from localStorage as strings later on
 
   const coin = (each) => {
     const coin = each.coin?.replace("USDT", "");
     const link = `https://www.binance.com/en/trade/${coin}_USDT?layout=pro`
     return <a href={link} target="_blank">{coin}</a>
   }
-  const list = favorite !== "" ? coins
+
+  const list = coins
     //.sort((a, b) =>  b["0m"]?.percentageDiff - a["0m"]?.percentageDiff) // b-a descending (bigger first)
     // eslint-disable-next-line array-callback-return
     .filter((each) => {
-
       for (let i = 0; i < favorite.length; i++) {
         if (each.coin === favorite[i]) {
           return each
@@ -50,18 +47,20 @@ const EditableTable = ({ coins }) => {
       // title={`${each.coin} : ${each.percentageDiff} (${each.comparedTo})`}
       //    <div> {parseFloat(each.priceNow)} vs {parseFloat(each.priceBackThen)}({each.timeBackThen})</div>
 
-    }) : "";
+    })
 
-  const [dataSource, setDataSource] = useState([]); // useState(list);
 
 
   const handleDelete = async (key) => {
+    let arrayMinusDeletedOne = [...favorite].filter((item) => item !== key);
+    localStorage.setItem('favs', JSON.stringify(arrayMinusDeletedOne));
+
     setFavorite([...favorite].filter((item) => item !== key))    // console.log(key);
   };
-
-
   const handleAddFromAutoCompleteInput = async (data) => {
 
+    let arrayWithNewCoin = [...favorite, data];
+    localStorage.setItem('favs', JSON.stringify(arrayWithNewCoin));
     //Update the favorites
     setFavorite([...favorite, data])
 
@@ -101,7 +100,6 @@ const EditableTable = ({ coins }) => {
 
     //Update the  dataSource
     setDataSource([...dataSource, found])
-
 
 
   }
