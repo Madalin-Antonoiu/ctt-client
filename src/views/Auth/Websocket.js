@@ -4,6 +4,7 @@ import { Skeleton, Spin, Row, Col, Alert, Empty, Card, Tag } from "antd";
 import { LoadingOutlined } from '@ant-design/icons';
 import TrackTable from "../../components/TrackTable"
 import EditableTable from "../../components/EditableTable"
+import Uptrend from "../../components/Uptrend"
 
 const Websocket = () => {
   const [coins, setCoins] = useState([]);
@@ -214,6 +215,9 @@ const Websocket = () => {
 
       </Row>
 
+      <Uptrend coins={coins} />
+
+
       <Row gutter={20} >
         <Col xs={24} sm={24} md={13} lg={13} xl={13} >
           <Skeleton />
@@ -330,7 +334,7 @@ const Websocket = () => {
       </div>
     }
 
-  </div>
+  </div >
 
 
 
