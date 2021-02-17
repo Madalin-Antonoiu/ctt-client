@@ -1227,6 +1227,11 @@
   resolved "https://registry.yarnpkg.com/@iconify-icons/bx/-/bx-1.1.0.tgz#7c248552375b7a3faba9fee0a632b650336cffdf"
   integrity sha512-JlCsrgpp4vujb7tDaZtJ/OfeTnsSFyDFSauNO+2ilsHviCb/u3VXbLjdIoDIR5ISGMr0a+W/f0YNOHn3zUqChA==
 
+"@iconify-icons/cryptocurrency@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@iconify-icons/cryptocurrency/-/cryptocurrency-1.1.1.tgz#cb3ecfe28c5a24d1d73fd5d33aed6955418e34bd"
+  integrity sha512-gc6TKs4ILIc020K3ATDBu7Hd4ddZHDMk3GXDgSYCFb5vmfdKMR/WhppusQ6eQr0f0UUG/rtIQLzO/Y3jl//3Mw==
+
 "@iconify-icons/fluent@^1.1.5":
   version "1.1.5"
   resolved "https://registry.yarnpkg.com/@iconify-icons/fluent/-/fluent-1.1.5.tgz#2e4bac4bf3919c4081277fe48a0127fdacf03248"
@@ -3715,6 +3720,11 @@ crypto-random-string@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/crypto-random-string/-/crypto-random-string-1.0.0.tgz#a230f64f568310e1498009940790ec99545bca7e"
   integrity sha1-ojD2T1aDEOFJgAmUB5DsmVRbyn4=
+
+cryptocurrency-icons@^0.17.1:
+  version "0.17.1"
+  resolved "https://registry.yarnpkg.com/cryptocurrency-icons/-/cryptocurrency-icons-0.17.1.tgz#914084e2d443f8ee031b3ff162e0dd9f8446a8b2"
+  integrity sha512-2IMNdqCkYRg4BJVS5fFPPmPnYjWR/dGG+0TOKYoHGVfWfIck7Iy1LTHWMT9Rcd4gxbkSz1FbJLM6ptCQdJEDVA==
 
 css-blank-pseudo@^0.1.4:
   version "0.1.4"
@@ -7432,7 +7442,7 @@ mkdirp@^1.0.3, mkdirp@^1.0.4:
   resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-1.0.4.tgz#3eb5ed62622756d79a5f0e2a221dfebad75c2f7e"
   integrity sha512-vVqVZQyf3WLx2Shd0qJ9xuvqgAyKPLAiqITEtqW0oIUjzo3PePDd6fW9iFz30ef7Ysp/oiWqbhszeGWW2T6Gzw==
 
-moment@^2.24.0, moment@^2.25.3:
+moment@^2.24.0, moment@^2.25.3, moment@^2.29.1:
   version "2.29.1"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.1.tgz#b2be769fa31940be9eeea6469c075e35006fa3d3"
   integrity sha512-kHmoybcPV8Sqy59DwNDY3Jefr64lK/by/da0ViFcuA4DH0vQg5Q6Ze5VimxkfQNSC+Mls/Kx53s7TjP1RhFEDQ==

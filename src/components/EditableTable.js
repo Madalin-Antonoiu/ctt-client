@@ -9,8 +9,14 @@ const EditableTable = ({ coins }) => {
   const [favorite, setFavorite] = useState(JSON.parse(localStorage.getItem('favs')));
   const [dataSource, setDataSource] = useState([]);
 
+  const numberWithCommas = (x) => {
+    return parseInt(x)
+      .toString()
+      .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+
   const P = (obj, time) => obj[time]?.percentageDiff ? Number(obj[time]?.percentageDiff) : <Skeleton.Avatar active={false} size={"small"} shape={"circle"} />// + "%"
-  const p = (each) => each["0m"]?.priceNow ? parseFloat(each["0m"].priceNow) : <Tag color="grey">None</Tag>
+  const p = (each) => each["0m"]?.priceNow ? parseFloat(each["0m"].priceNow) : "Unchanged"
 
   const coin = (each) => {
     const coin = each.coin?.replace("USDT", "");
@@ -19,7 +25,8 @@ const EditableTable = ({ coins }) => {
   }
 
   const list = coins
-    //.sort((a, b) =>  b["0m"]?.percentageDiff - a["0m"]?.percentageDiff) // b-a descending (bigger first)
+    .sort((a, b) => a.coin?.localeCompare(b.coin))
+    // .sort((a, b) =>  b["0m"]?.percentageDiff - a["0m"]?.percentageDiff) // b-a descending (bigger first)
     // eslint-disable-next-line array-callback-return
     .filter((each) => {
       for (let i = 0; i < favorite.length; i++) {
@@ -43,6 +50,7 @@ const EditableTable = ({ coins }) => {
         _30m: P(each, "30m"),
         _60m: P(each, "60m"),
         price: p(each),
+        _24Hours: each._24Hours
       }
       // title={`${each.coin} : ${each.percentageDiff} (${each.comparedTo})`}
       //    <div> {parseFloat(each.priceNow)} vs {parseFloat(each.priceBackThen)}({each.timeBackThen})</div>
@@ -96,7 +104,7 @@ const EditableTable = ({ coins }) => {
 
       }
       );
-
+    //console.log(found);
 
     //Update the  dataSource
     setDataSource([...dataSource, found])
@@ -108,8 +116,9 @@ const EditableTable = ({ coins }) => {
     {
       title: 'Coin',
       dataIndex: 'coin',
-      sorter: (a, b) => a.coin?.localeCompare(b.coin), // alphabetical sort (antd)
-      sortDirections: ['ascend', 'descend'],
+      //sorter: (a, b) => a.coin?.localeCompare(b.coin), // alphabetical sort (antd)
+      // defaultSortOrder: 'descend',
+      // sortDirections: ['ascend', 'descend'],
       key: 1
     },
     {
@@ -208,6 +217,7 @@ const EditableTable = ({ coins }) => {
 
   return (
     <>
+      {/* {console.log(coins)} */}
       <Divider plain style={{ userSelect: "none" }}>
         <Tag color={"#001f3f"}>
           <StarOutlined /> {" "}
@@ -225,7 +235,13 @@ const EditableTable = ({ coins }) => {
           pagination={false}
           size="small"
           expandable={{
-            expandedRowRender: record => <p style={{ margin: 0 }}>{record.key}</p>,
+            expandedRowRender: record => <p style={{ margin: 0 }}>
+              {/* {console.log(record)} */}
+              <Tag color="volcano">24H Volume<br /> {numberWithCommas(record._24Hours.moneyInvested)}$</Tag>
+              <Tag color="purple">24H Change<br /> {parseFloat(record._24Hours.exactChange)}$ / {parseFloat(record._24Hours.percentageChange).toFixed(2)}%</Tag>
+              <Tag color="red">24h Low:<br />  {parseFloat(record._24Hours.lowPrice)}$</Tag>
+              <Tag color="green"> 24h High:<br />  {parseFloat(record._24Hours.highPrice)}$</Tag>
+            </p>,
             rowExpandable: record => record.name !== 'Not Expandable',
           }}
           style={{ userSelect: "none" }}

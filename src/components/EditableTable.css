@@ -6,3 +6,8 @@
 #my-editable-table tr td {
   padding: 2px;
 }
+
+#my-editable-table .ant-tag {
+  text-align: center;
+  min-width: 100px;
+}

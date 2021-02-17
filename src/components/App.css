@@ -7,9 +7,69 @@
   opacity: 0.3;
 }
 
-.my-table td {
-  min-width: 4rem;
+.ant-tag {
+  margin-right: 0;
 }
+
+/* .my-table td {
+  min-width: 4rem;
+} */
+
+/* .my-table {
+  max-width: 110px;
+} */
+.my-table tr td:nth-child(1) {
+  min-width: 65px; /* coin name */
+  /* background-color: red !important; */
+}
+
+.my-row .ant-col {
+  max-width: 135px;
+}
+
+.my-row .ant-table-footer {
+  padding: 2px;
+  font-size: 60%;
+}
+
+.my-row .ant-card-body {
+  padding: 5px;
+}
+
+.my-card .ant-card-body {
+  padding: 5px;
+}
+
+.my-card {
+  width: 90px;
+  border-radius: 25px;
+}
+
+.my-card .my-coin {
+  font-family: monospace;
+}
+
+.my-card .bitcoin {
+  color: #f2a900;
+}
+
+.my-card .ethereum {
+  color: #f2a900;
+}
+
+.my-card .polkadot {
+  color: #ffffff;
+}
+
+.my-svg {
+  height: 30;
+  display: block;
+  margin: auto;
+}
+
+/* .my-divider {
+  max-width: 110px;
+} */
 
 /* .my-table tr:first-child td {
   background: red;
@@ -20,4 +80,8 @@
 }
 .ant-popover-title {
   text-align: center;
+}
+
+.ant-table-cell {
+  padding: 2px;
 }
