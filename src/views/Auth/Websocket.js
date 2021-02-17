@@ -215,10 +215,8 @@ const Websocket = () => {
 
       </Row>
 
-      <Uptrend coins={coins} />
 
-
-      <Row gutter={20} >
+      <Row gutter={20}>
         <Col xs={24} sm={24} md={13} lg={13} xl={13} >
           <Skeleton />
         </Col>
@@ -238,11 +236,36 @@ const Websocket = () => {
             selectedMinute="0"
             popoverTitle="Top Performance This Minute "
           />
+
         </Col>
+
+
+
 
       </Row>
       {/* {console.log(coins)} */}
       {/* Negative */}
+
+      <Row >
+        <Col xs={24} sm={24} md={13} lg={13} xl={13} >
+          <Skeleton />
+        </Col>
+
+
+        <Col style={{ marginBlock: "1rem" }} offset={5} name="uptrend">
+          <Uptrend coins={coins} selection="3" />
+        </Col>
+        <Col style={{ marginBlock: "1rem" }} name="uptrend">
+          <Uptrend coins={coins} selection="5" />
+        </Col>
+        <br />
+
+
+
+      </Row>
+
+
+
       <Row gutter={25} className="my-row">
 
         <Col xs={10} sm={8} md={6} lg={4} xl={3} name="1m-ago">
