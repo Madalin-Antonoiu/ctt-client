@@ -3,13 +3,47 @@
 }
 
 .my-table .ant-table {
-  line-height: 10px !important;
+  line-height: 12px !important;
 }
 
-.uptrend-table .ant-table {
-  line-height: 12px !important;
+.my-table .ant-tag {
+  padding: 0 2px 0 2px;
+  font-size: 60%;
 }
 
 /* .ant-table-cell {
   padding: 2 px;
 } */
+
+.not-enough-data {
+  line-height: 10px;
+  width: 50px;
+}
+
+.not-enough-data .ant-empty-img-default {
+  width: 50px;
+}
+
+.my-table {
+  width: 95px;
+}
+
+.my-table tr td:nth-child(1) {
+  min-width: 65px; /* coin name */
+  /* background-color: red !important; */
+}
+
+/* .my-table .ant-table-cell {
+  text-align: center;
+} */
+
+.uptrend-table .ant-table {
+  line-height: 12px !important;
+  width: 120px;
+  height: 150px;
+}
+
+.my-centered-row {
+  display: flex;
+  justify-content: center;
+}

@@ -18,6 +18,11 @@ const TrackTable = ({ coins, selectedMinute, popoverTitle, negative = false }) =
         const link = `https://www.binance.com/en/trade/${coin}_USDT?layout=pro`
         return <a href={link} target="_blank" rel="noreferrer" style={{ color: "#39CCCC" }}>{coin}</a>
     }
+    const coinAndScore = (each, selectedMinute) => {
+        const coin = each.coin?.replace("USDT", "");
+        const link = `https://www.binance.com/en/trade/${coin}_USDT?layout=pro`
+        return <> <a href={link} target="_blank" rel="noreferrer" style={{ color: "#39CCCC" }}>{coin}</a> <span style={{ float: "right" }}>{P(each, selectedMinute)} </span> </>
+    }
     const constructList = (selectedMinute) => {
         const percentageFor = "_" + selectedMinute;
 
@@ -31,11 +36,14 @@ const TrackTable = ({ coins, selectedMinute, popoverTitle, negative = false }) =
             .map((each) => {
                 return {
                     key: each?.coin,
-                    // coin: C(each, selectedMinute),
-                    coin: coin(each),
-                    [percentageFor]: P(each, selectedMinute),
+                    coinAndScore: coinAndScore(each, selectedMinute),
                     vs: each[selectedMinute]?.timeBackThen
-                    // price: p(each),
+                    // key: each?.coin,
+                    // // coin: C(each, selectedMinute),
+                    // coin: coin(each),
+                    // [percentageFor]: P(each, selectedMinute),
+
+                    // // price: p(each),
                 }
             }
             );
@@ -53,11 +61,9 @@ const TrackTable = ({ coins, selectedMinute, popoverTitle, negative = false }) =
             .map((each) => {
                 return {
                     key: each?.coin,
-                    // coin: C(each, selectedMinute),
-                    coin: coin(each),
-                    [percentageFor]: P(each, selectedMinute),
+                    coinAndScore: coinAndScore(each, selectedMinute),
                     vs: each[selectedMinute]?.timeBackThen
-                    // price: p(each),
+
                 }
             }
             );
@@ -67,6 +73,7 @@ const TrackTable = ({ coins, selectedMinute, popoverTitle, negative = false }) =
 
     if (negative === false) {
         dataSource = constructList(source);
+        console.log(dataSource)
     } else {
         dataSource = negativeConstructList(source);
     }
@@ -100,7 +107,6 @@ const TrackTable = ({ coins, selectedMinute, popoverTitle, negative = false }) =
     });
 
 
-
     //Other
     const updatedFooter = () => {
         return <div style={{ textAlign: "center" }}>
@@ -114,7 +120,7 @@ const TrackTable = ({ coins, selectedMinute, popoverTitle, negative = false }) =
     const reusableTitle = () => {
 
         return <>
-            <b>%</b>
+            <b>{negative ? "Down %" : "Up %"}</b>
             <span style={{ position: "absolute", top: "2px", right: "2px" }}>
                 <Popover placement="right"
                     title={popoverTitle}
@@ -132,14 +138,11 @@ const TrackTable = ({ coins, selectedMinute, popoverTitle, negative = false }) =
             </span>
         </>
     }
+
     const columns = [
         {
-            title: negative ? "↘️" : " 🚀 ",
-            dataIndex: 'coin',
-        },
-        {
             title: reusableTitle(),
-            dataIndex: `_${selectedMinute}m`,
+            dataIndex: 'coinAndScore',
         },
 
     ];
@@ -148,16 +151,18 @@ const TrackTable = ({ coins, selectedMinute, popoverTitle, negative = false }) =
 
     return <>
 
-        {comparedToTime ?
+        <Table className="my-table" columns={columns} dataSource={dataSource} size="small" pagination={false} footer={() => updatedFooter()} />
+
+        {/* {comparedToTime ?
 
             <Table className="my-table" columns={columns} dataSource={dataSource} size="small" pagination={false} footer={() => updatedFooter()} />
 
 
             :
 
-            <Empty description={"Not enough data."} />
+            <Empty className="not-enough-data" description={"Not enough data."} />
 
-        }
+        } */}
 
     </>
 

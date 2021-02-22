@@ -1,8 +1,6 @@
 import React from "react";
 import { Skeleton, Table, Empty } from "antd";
 
-
-
 const Uptrend = ({ coins, selection }) => {
 
     const columnsThree = [
@@ -199,7 +197,7 @@ const Uptrend = ({ coins, selection }) => {
 
 
     const biggestScoreFive = uptrendFive
-        .filter((each) => each["_0m"]?.nowVs0m >= 0 && each["_1m"]?._0mVs1m >= 0 && each["_3m"]?._1mVs3m >= 0 && each["_5m"]?._3mVs5m >= 0) // every one should be positive, now vs 1 min, 2, 3, 5 min ago
+        .filter((each) => each["_0m"]?.nowVs0m > 0 && each["_1m"]?._0mVs1m > 0 && each["_3m"]?._1mVs3m > 0 && each["_5m"]?._3mVs5m > 0) // every one should be positive, now vs 1 min, 2, 3, 5 min ago
         .sort((a, b) => b.percentageScore - a.percentageScore)
         .slice(0, 10) //top 30
         .map((each) => {
@@ -210,7 +208,7 @@ const Uptrend = ({ coins, selection }) => {
         })
 
     const biggestScoreThree = uptrendThree
-        .filter((each) => each["_0m"]?.nowVs0m >= 0 && each["_1m"]?._0mVs1m >= 0 && each["_3m"]?._1mVs3m >= 0) // every one should be positive, now vs 1 min, 2, 3, 5 min ago
+        .filter((each) => each["_0m"]?.nowVs0m > 0 && each["_1m"]?._0mVs1m > 0 && each["_3m"]?._1mVs3m > 0) // every one should be positive, now vs 1 min, 2, 3, 5 min ago
         .sort((a, b) => b.percentageScore - a.percentageScore)
         .slice(0, 10) //top 30
         .map((each) => {
@@ -237,10 +235,10 @@ const Uptrend = ({ coins, selection }) => {
 
     return <>
 
-        {biggestScoreFive ?
-            <div style={{ maxWidth: "80px" }} >
-                <Table className="uptrend-table" scroll={{ y: 210 }} columns={COLUMNS} dataSource={DATA} size="small" pagination={false} />
-            </div>
+        {biggestScoreFive || biggestScoreThree ?
+
+            <Table className="uptrend-table" scroll={{ y: 120 }} columns={COLUMNS} dataSource={DATA} size="small" pagination={false} />
+
             :
 
             <Empty description={"Not enough data."} />

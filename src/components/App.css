@@ -18,13 +18,9 @@
 /* .my-table {
   max-width: 110px;
 } */
-.my-table tr td:nth-child(1) {
-  min-width: 65px; /* coin name */
-  /* background-color: red !important; */
-}
 
 .my-row .ant-col {
-  max-width: 135px;
+  max-width: 115px;
 }
 
 .my-row .ant-table-footer {
@@ -86,6 +82,14 @@
   padding: 2px;
 }
 
-.ant-table {
+.my-table .ant-table {
   line-height: 5px !important;
+}
+
+.my-super-row .ant-row {
+  width: 100%;
+}
+
+.my-super-row .ant-divider-inner-text {
+  margin-bottom: -10px;
 }
