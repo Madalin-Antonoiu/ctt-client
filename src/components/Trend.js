@@ -1,25 +1,35 @@
 import React from "react";
 import { Skeleton, Table, Empty } from "antd";
 
-const Uptrend = ({ coins, selection }) => {
+const Trend = ({ coins, selection, downtrend = false }) => {
+    var scoreFive, scoreThree = null;
+
+    const title = () => {
+        if (downtrend === true) {
+            return `Downtrend (${selection}m)`
+        } else {
+            return `Uptrend (${selection}m)`
+        }
+    }
 
     const columnsThree = [
         {
-            title: "Uptrend(3m)",
-            dataIndex: "uptrendThree",
+            title: title(),
+            dataIndex: "trendThree",
         },
 
     ];
     const columnsFive = [
 
         {
-            title: "Uptrend(5m)",
-            dataIndex: "uptrendFive",
+            title: title(),
+            dataIndex: "trendFive",
         },
 
 
     ];
-    function uptrendFiveAgo(zero, one, three, five) {
+
+    function trendFiveAgo(zero, one, three, five) {
         const percentage0 = "_" + zero; // now vs begining of this minute
         const percentage1 = "_" + one;// now vs last minute minute...( now means price updates every second and compares to the snapshot)
         const percentage3 = "_" + three;
@@ -106,7 +116,7 @@ const Uptrend = ({ coins, selection }) => {
 
 
     }
-    function uptrendThreeAgo(zero, one, three) {
+    function trendThreeAgo(zero, one, three) {
         const percentage0 = "_" + zero; // now vs begining of this minute
         const percentage1 = "_" + one;// now vs last minute minute...( now means price updates every second and compares to the snapshot)
         const percentage3 = "_" + three;
@@ -142,19 +152,9 @@ const Uptrend = ({ coins, selection }) => {
             .filter((each) => !each.coin?.endsWith("BEARUSDT"))
             .map((each) => {
 
-                // Percentage differences
-                // i need now vs start of the minute
-                // start of the minute vs 1 min ago
-                // 1 min ago vs 3 min ago
-                // 3 min ago vs 5 min ago
-
-                //percentages
                 const nowVsStartofMinute = P(each, zero);
                 const startOfMinuteVsOneMinAgo = P(each, one);
                 const oneMinAgoVsThreeMinAgo = P(each, three);
-
-
-
 
                 const dolarGainNowVs0m = Number(enhancedPercentageDiff(priceNow(each, zero), p(each, zero)));
                 const dolarGain0mVs1m = Number(enhancedPercentageDiff(p(each, zero), p(each, one)));
@@ -188,56 +188,85 @@ const Uptrend = ({ coins, selection }) => {
 
 
     }
-    const uptrendFive = uptrendFiveAgo("0m", "1m", "3m", "5m")
-    const uptrendThree = uptrendThreeAgo("0m", "1m", "3m");
-    //console.log(uptrendFive);
+
+
+    const trendFive = trendFiveAgo("0m", "1m", "3m", "5m")
+    const trendThree = trendThreeAgo("0m", "1m", "3m");
+    //console.log(trendFive);
     const coinAndScore = (each) => {
         return <div><div> {each.coin}</div> <div>{parseFloat(each.percentageScore).toFixed(2)}</div> </div>
     }
 
 
-    const biggestScoreFive = uptrendFive
-        .filter((each) => each["_0m"]?.nowVs0m > 0 && each["_1m"]?._0mVs1m > 0 && each["_3m"]?._1mVs3m > 0 && each["_5m"]?._3mVs5m > 0) // every one should be positive, now vs 1 min, 2, 3, 5 min ago
-        .sort((a, b) => b.percentageScore - a.percentageScore)
-        .slice(0, 10) //top 30
-        .map((each) => {
+    if (downtrend === true) {
+        // Downtrend
+        scoreFive = trendFive
+            .filter((each) => each["_0m"]?.nowVs0m < 0 && each["_1m"]?._0mVs1m < 0 && each["_3m"]?._1mVs3m < 0 && each["_5m"]?._3mVs5m < 0) // every one should be positive, now vs 1 min, 2, 3, 5 min ago
+            .sort((a, b) => a.percentageScore - b.percentageScore)
+            .slice(0, 15) //top 30
+            .map((each) => {
 
-            return {
-                uptrendFive: coinAndScore(each),
-            }
-        })
+                return {
+                    trendFive: coinAndScore(each),
+                }
+            })
 
-    const biggestScoreThree = uptrendThree
-        .filter((each) => each["_0m"]?.nowVs0m > 0 && each["_1m"]?._0mVs1m > 0 && each["_3m"]?._1mVs3m > 0) // every one should be positive, now vs 1 min, 2, 3, 5 min ago
-        .sort((a, b) => b.percentageScore - a.percentageScore)
-        .slice(0, 10) //top 30
-        .map((each) => {
+        scoreThree = trendThree
+            .filter((each) => each["_0m"]?.nowVs0m < 0 && each["_1m"]?._0mVs1m < 0 && each["_3m"]?._1mVs3m < 0) // every one should be positive, now vs 1 min, 2, 3, 5 min ago
+            .sort((a, b) => a.percentageScore - b.percentageScore)
+            .slice(0, 15) //top 30
+            .map((each) => {
 
-            return {
-                uptrendThree: coinAndScore(each),
-            }
-        })
+                return {
+                    trendThree: coinAndScore(each),
+                }
+            })
+    } else {
+        scoreFive = trendFive
+            .filter((each) => each["_0m"]?.nowVs0m > 0 && each["_1m"]?._0mVs1m > 0 && each["_3m"]?._1mVs3m > 0 && each["_5m"]?._3mVs5m > 0) // every one should be positive, now vs 1 min, 2, 3, 5 min ago
+            .sort((a, b) => b.percentageScore - a.percentageScore)
+            .slice(0, 15) //top 30
+            .map((each) => {
 
-    // console.log(biggestScoreFive.map((each) => each.uptrendScore))
-    // const merged = { uptrendThree: biggestScoreThree, uptrendFive: biggestScoreFive };
+                return {
+                    trendFive: coinAndScore(each),
+                }
+            })
+
+        scoreThree = trendThree
+            .filter((each) => each["_0m"]?.nowVs0m > 0 && each["_1m"]?._0mVs1m > 0 && each["_3m"]?._1mVs3m > 0) // every one should be positive, now vs 1 min, 2, 3, 5 min ago
+            .sort((a, b) => b.percentageScore - a.percentageScore)
+            .slice(0, 15) //top 30
+            .map((each) => {
+
+                return {
+                    trendThree: coinAndScore(each),
+                }
+            })
+    }
+
+
+
+    // console.log(scoreFive.map((each) => each.uptrendScore))
+    // const merged = { trendThree: scoreThree, trendFive: scoreFive };
     // console.log(merged)
     var COLUMNS, DATA = "";
 
     if (selection === "3" || selection === 3) {
         COLUMNS = columnsThree;
-        DATA = biggestScoreThree
+        DATA = scoreThree
     }
     if (selection === "5" || selection === 5) {
         COLUMNS = columnsFive;
-        DATA = biggestScoreFive
+        DATA = scoreFive
     }
 
 
     return <>
 
-        {biggestScoreThree ?
+        {scoreThree ?
 
-            <Table className="uptrend-table" scroll={{ y: 120 }} columns={COLUMNS} dataSource={DATA} size="small" pagination={false} />
+            <Table className="trend-table" scroll={{ y: 120 }} columns={COLUMNS} dataSource={DATA} size="small" pagination={false} />
 
             :
 
@@ -248,4 +277,4 @@ const Uptrend = ({ coins, selection }) => {
 
 }
 
-export default Uptrend;
+export default Trend;

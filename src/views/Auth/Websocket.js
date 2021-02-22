@@ -5,7 +5,7 @@ import { LoadingOutlined } from '@ant-design/icons';
 
 import TrackTable from "../../components/TrackTable"
 import EditableTable from "../../components/EditableTable"
-import Uptrend from "../../components/Uptrend"
+import Trend from "../../components/Trend"
 import CoinCard from "../../components/CoinCard" // love this one!
 
 
@@ -145,24 +145,45 @@ const Websocket = () => {
                   </Row>
                 </Row>
 
-                <Row name="uptrend" style={{ marginBlock: "2rem" }}>
+                <Row name="Trend" style={{ marginBlock: "2rem" }} gutter={20} >
 
-                  <Divider plain style={{ userSelect: "none" }} >
-                    <Tag color={"#001f3f"}>
-                      Uptrend
+                  <Col name="Trendy">
+                    <Divider plain style={{ userSelect: "none" }} >
+                      <Tag color={"#001f3f"}>
+                        Trend
                     </Tag>
-                  </Divider>
+                    </Divider>
 
+                    <Row className="my-centered-row">
+                      <Col name="Trend3">
+                        <Trend coins={coins} selection="3" />
+                      </Col>
 
-                  <Row className="my-centered-row">
-                    <Col name="uptrend3">
-                      <Uptrend coins={coins} selection="3" />
-                    </Col>
+                      <Col name="Trend5">
+                        <Trend coins={coins} selection="5" />
+                      </Col>
+                    </Row>
+                  </Col>
 
-                    <Col name="uptrend5">
-                      <Uptrend coins={coins} selection="5" />
-                    </Col>
-                  </Row>
+                  <Col name="downtrendy">
+
+                    <Divider plain style={{ userSelect: "none" }} >
+                      <Tag color={"#001f3f"}>
+                        Downtrend
+                    </Tag>
+                    </Divider>
+
+                    <Row className="my-centered-row">
+                      <Col name="Trend3">
+                        <Trend coins={coins} selection="3" downtrend={true} />
+                      </Col>
+
+                      <Col name="Trend5">
+                        <Trend coins={coins} selection="5" downtrend={true} />
+                      </Col>
+                    </Row>
+
+                  </Col>
 
 
                 </Row>

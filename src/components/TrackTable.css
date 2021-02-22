@@ -37,9 +37,9 @@
   text-align: center;
 } */
 
-.uptrend-table .ant-table {
+.trend-table .ant-table {
   line-height: 12px !important;
-  width: 120px;
+  width: 110px;
   height: 150px;
 }
 
