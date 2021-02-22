@@ -1,5 +1,5 @@
 import React from "react"
-import { Table, Tag, Popover, Timeline, Empty } from "antd";
+import { Table, Tag, Popover, Timeline, Empty, Skeleton } from "antd";
 // import { InlineIcon } from '@iconify/react';
 // import bxGitCompare from '@iconify-icons/bx/bx-git-compare';
 import { ClockCircleOutlined, QuestionCircleOutlined, SyncOutlined } from '@ant-design/icons';
@@ -7,26 +7,77 @@ import "./TrackTable.css"
 import moment from "moment";
 
 
-const TrackTable = ({ dataSource, selectedMinute, popoverTitle }) => {
-    const comparedToTime = dataSource[0].vs
-    //console.log(comparedToTime);
-    const localeTimeString = new Date(dataSource[0].vs).toLocaleTimeString().replace(":00", "")
+const TrackTable = ({ coins, selectedMinute, popoverTitle, negative = false }) => {
+    // Important stuff
 
+
+    var dataSource = null;
+    const P = (obj, time) => obj[time]?.percentageDiff ? Number(obj[time]?.percentageDiff) : <Skeleton.Avatar active={false} size={"small"} shape={"circle"} />// + "%"
+    const coin = (each) => {
+        const coin = each.coin?.replace("USDT", "");
+        const link = `https://www.binance.com/en/trade/${coin}_USDT?layout=pro`
+        return <a href={link} target="_blank" rel="noreferrer" style={{ color: "#39CCCC" }}>{coin}</a>
+    }
+    const constructList = (selectedMinute) => {
+        const percentageFor = "_" + selectedMinute;
+
+        return coins
+            .sort((a, b) => b[selectedMinute]?.percentageDiff - a[selectedMinute]?.percentageDiff) // this is correct, vs sorting in the antd way
+            .filter((each) => !each.coin?.endsWith("DOWNUSDT"))
+            .filter((each) => !each.coin?.endsWith("UPUSDT"))
+            .filter((each) => !each.coin?.endsWith("BULLSDT"))
+            .filter((each) => !each.coin?.endsWith("BEARUSDT"))
+            .slice(0, 5) // top 5
+            .map((each) => {
+                return {
+                    key: each?.coin,
+                    // coin: C(each, selectedMinute),
+                    coin: coin(each),
+                    [percentageFor]: P(each, selectedMinute),
+                    vs: each[selectedMinute]?.timeBackThen
+                    // price: p(each),
+                }
+            }
+            );
+    }
+    const negativeConstructList = (selectedMinute) => {
+        const percentageFor = "_" + selectedMinute;
+
+        return coins
+            .sort((a, b) => a[selectedMinute]?.percentageDiff - b[selectedMinute]?.percentageDiff) // this is correct, vs sorting in the antd way
+            .filter((each) => !each.coin?.endsWith("DOWNUSDT"))
+            .filter((each) => !each.coin?.endsWith("UPUSDT"))
+            .filter((each) => !each.coin?.endsWith("BULLSDT"))
+            .filter((each) => !each.coin?.endsWith("BEARUSDT"))
+            .slice(0, 5) // top 5
+            .map((each) => {
+                return {
+                    key: each?.coin,
+                    // coin: C(each, selectedMinute),
+                    coin: coin(each),
+                    [percentageFor]: P(each, selectedMinute),
+                    vs: each[selectedMinute]?.timeBackThen
+                    // price: p(each),
+                }
+            }
+            );
+    }
+
+    const source = selectedMinute + "m"
+
+    if (negative === false) {
+        dataSource = constructList(source);
+    } else {
+        dataSource = negativeConstructList(source);
+    }
+
+
+    //Time stuff
+    const comparedToTime = dataSource[0].vs
+    const localeTimeString = new Date(dataSource[0].vs).toLocaleTimeString().replace(":00", "")
     const d = new Date(comparedToTime);
     var v = new Date();
     v.setMinutes(d.getMinutes() + Number(selectedMinute) + 1);
-
-    const updatedFooter = () => {
-        return <div style={{ textAlign: "center" }}>
-
-            <Tag color="default">
-                {dataSource[0].vs ? moment(dataSource[0].vs).fromNow() : "Not enough data"}
-            </Tag>
-        </div>
-
-    }
-
-    //let storageTime = comparedToTime.split(", ").slice(1); // get only hh:mm
     moment.updateLocale('en', {
         relativeTime: {
             future: "in %s",
@@ -48,6 +99,18 @@ const TrackTable = ({ dataSource, selectedMinute, popoverTitle }) => {
         }
     });
 
+
+
+    //Other
+    const updatedFooter = () => {
+        return <div style={{ textAlign: "center" }}>
+
+            <Tag color="default">
+                {dataSource[0].vs ? moment(dataSource[0].vs).fromNow() : "Not enough data"}
+            </Tag>
+        </div>
+
+    }
     const reusableTitle = () => {
 
         return <>
@@ -71,7 +134,7 @@ const TrackTable = ({ dataSource, selectedMinute, popoverTitle }) => {
     }
     const columns = [
         {
-            title: 'Coin',
+            title: negative ? "↘️" : " 🚀 ",
             dataIndex: 'coin',
         },
         {
@@ -81,11 +144,14 @@ const TrackTable = ({ dataSource, selectedMinute, popoverTitle }) => {
 
     ];
 
+
+
     return <>
 
         {comparedToTime ?
 
             <Table className="my-table" columns={columns} dataSource={dataSource} size="small" pagination={false} footer={() => updatedFooter()} />
+
 
             :
 
@@ -94,6 +160,7 @@ const TrackTable = ({ dataSource, selectedMinute, popoverTitle }) => {
         }
 
     </>
+
 }
 
 export default TrackTable;

@@ -1,8 +1,9 @@
 import React from "react";
 import { Skeleton, Table, Empty } from "antd";
 
-const Uptrend = ({ coins, selection }) => {
 
+
+const Uptrend = ({ coins, selection }) => {
 
     const columnsThree = [
         {
@@ -11,7 +12,6 @@ const Uptrend = ({ coins, selection }) => {
         },
 
     ];
-
     const columnsFive = [
 
         {
@@ -21,7 +21,7 @@ const Uptrend = ({ coins, selection }) => {
 
 
     ];
-    const uptrendFiveAgo = (zero, one, three, five) => {
+    function uptrendFiveAgo(zero, one, three, five) {
         const percentage0 = "_" + zero; // now vs begining of this minute
         const percentage1 = "_" + one;// now vs last minute minute...( now means price updates every second and compares to the snapshot)
         const percentage3 = "_" + three;
@@ -108,7 +108,7 @@ const Uptrend = ({ coins, selection }) => {
 
 
     }
-    const uptrendThreeAgo = (zero, one, three) => {
+    function uptrendThreeAgo(zero, one, three) {
         const percentage0 = "_" + zero; // now vs begining of this minute
         const percentage1 = "_" + one;// now vs last minute minute...( now means price updates every second and compares to the snapshot)
         const percentage3 = "_" + three;
@@ -190,12 +190,13 @@ const Uptrend = ({ coins, selection }) => {
 
 
     }
-    const uptrendFive = uptrendFiveAgo("0m", "1m", "3m", "5m");
+    const uptrendFive = uptrendFiveAgo("0m", "1m", "3m", "5m")
     const uptrendThree = uptrendThreeAgo("0m", "1m", "3m");
     //console.log(uptrendFive);
     const coinAndScore = (each) => {
         return <div><div> {each.coin}</div> <div>{parseFloat(each.percentageScore).toFixed(2)}</div> </div>
     }
+
 
     const biggestScoreFive = uptrendFive
         .filter((each) => each["_0m"]?.nowVs0m >= 0 && each["_1m"]?._0mVs1m >= 0 && each["_3m"]?._1mVs3m >= 0 && each["_5m"]?._3mVs5m >= 0) // every one should be positive, now vs 1 min, 2, 3, 5 min ago
@@ -239,7 +240,6 @@ const Uptrend = ({ coins, selection }) => {
         {biggestScoreFive ?
             <div style={{ maxWidth: "80px" }} >
                 <Table className="uptrend-table" scroll={{ y: 210 }} columns={COLUMNS} dataSource={DATA} size="small" pagination={false} />
-
             </div>
             :
 

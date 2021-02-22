@@ -53,13 +53,12 @@ const ExchangeInfo = (props) => {
       </div>
     );
   });
-
   const ustTickersString = tradableUSDTCoins.data?.map((data) => {
     return `${data.symbol.toLowerCase()}@ticker/`;
   });
 
   return (
-    <div>
+    <>
       <div>ExchangeInfo Page</div>
       {tradableUSDTCoins !== [] ? (
         <div>
@@ -70,9 +69,9 @@ const ExchangeInfo = (props) => {
           {ustTickersString}
         </div>
       ) : (
-        "Loading..."
-      )}
-    </div>
+          "Loading..."
+        )}
+    </>
   );
 };
 
