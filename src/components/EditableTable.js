@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Button, Popconfirm, Tag, Skeleton, Divider, Tooltip } from 'antd';
+import { Table, Button, Popconfirm, Tag, Skeleton, Divider, Tooltip, Row, Col } from 'antd';
 import MyAutoComplete from "../components/MyAutoComplete"
 import { DeleteOutlined, StarOutlined, AlertOutlined } from '@ant-design/icons';
 import "./EditableTable.css"
@@ -8,16 +8,13 @@ import "./EditableTable.css"
 const EditableTable = ({ coins }) => {
   const [favorite, setFavorite] = useState(JSON.parse(localStorage.getItem('favs')));
   const [dataSource, setDataSource] = useState([]);
-
   const numberWithCommas = (x) => {
     return parseInt(x)
       .toString()
       .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
-
   const P = (obj, time) => obj[time]?.percentageDiff ? Number(obj[time]?.percentageDiff) : <Skeleton.Avatar active={false} size={"small"} shape={"circle"} />// + "%"
   const p = (each) => each["0m"]?.priceNow ? parseFloat(each["0m"].priceNow) : "Unchanged"
-
   const coin = (each) => {
     const coin = each.coin?.replace("USDT", "");
     const link = `https://www.binance.com/en/trade/${coin}_USDT?layout=pro`
@@ -56,7 +53,6 @@ const EditableTable = ({ coins }) => {
       //    <div> {parseFloat(each.priceNow)} vs {parseFloat(each.priceBackThen)}({each.timeBackThen})</div>
 
     })
-
 
 
   const handleDelete = async (key) => {
@@ -237,10 +233,29 @@ const EditableTable = ({ coins }) => {
           expandable={{
             expandedRowRender: record => <p style={{ margin: 0 }}>
               {/* {console.log(record)} */}
-              <Tag color="volcano">24H Volume<br /> {numberWithCommas(record._24Hours.moneyInvested)}$</Tag>
-              <Tag color="purple">24H Change<br /> {parseFloat(record._24Hours.exactChange)}$ / {parseFloat(record._24Hours.percentageChange).toFixed(2)}%</Tag>
-              <Tag color="red">24h Low:<br />  {parseFloat(record._24Hours.lowPrice)}$</Tag>
-              <Tag color="green"> 24h High:<br />  {parseFloat(record._24Hours.highPrice)}$</Tag>
+              <Row gutter={20} style={{ display: "flex", justifyContent: "center" }}>
+                <Col>
+                  <Tag color="default">24H Volume<br /> {numberWithCommas(record._24Hours.moneyInvested)}$</Tag>
+                </Col>
+
+                <Col>
+                  <Tag color="default">24H Change<br /> {parseFloat(record._24Hours.exactChange)}$ / {parseFloat(record._24Hours.percentageChange).toFixed(2)}%</Tag>
+                </Col>
+
+                <Col>
+                  <Tag color="default">24h Low:<br />  {parseFloat(record._24Hours.lowPrice)}$</Tag>
+                </Col>
+
+                <Col>
+                  <Tag color="default"> 24h High:<br />  {parseFloat(record._24Hours.highPrice)}$</Tag>
+                </Col>
+              </Row>
+
+              <Row gutter={20} style={{ display: "flex", justifyContent: "center", marginBlock: "2rem" }}>
+                <p>Candlestick Chart (soon)</p>
+
+              </Row>
+
             </p>,
             rowExpandable: record => record.name !== 'Not Expandable',
           }}

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import requireAuth from "../../components/requireAuth";
-import { Skeleton, Spin, Row, Col, Alert, Empty, Divider, Tag } from "antd";
+import { Spin, Row, Col, Alert, Empty, Divider, Tag } from "antd";
 import { LoadingOutlined } from '@ant-design/icons';
 
 import TrackTable from "../../components/TrackTable"
@@ -68,6 +68,7 @@ const Websocket = () => {
           ?
           <true>
             <Row gutter={20} className="my-super-row">
+
               <Col xs={24} sm={24} md={13} lg={13} xl={13} name="left column">
                 <EditableTable coins={coins} />
               </Col>

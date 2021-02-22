@@ -1,5 +1,5 @@
 import React from "react"
-import { Table, Tag, Popover, Timeline, Empty, Skeleton } from "antd";
+import { Table, Tag, Popover, Timeline, Skeleton, Empty } from "antd";
 // import { InlineIcon } from '@iconify/react';
 // import bxGitCompare from '@iconify-icons/bx/bx-git-compare';
 import { ClockCircleOutlined, QuestionCircleOutlined, SyncOutlined } from '@ant-design/icons';
@@ -13,11 +13,7 @@ const TrackTable = ({ coins, selectedMinute, popoverTitle, negative = false }) =
 
     var dataSource = null;
     const P = (obj, time) => obj[time]?.percentageDiff ? Number(obj[time]?.percentageDiff) : <Skeleton.Avatar active={false} size={"small"} shape={"circle"} />// + "%"
-    const coin = (each) => {
-        const coin = each.coin?.replace("USDT", "");
-        const link = `https://www.binance.com/en/trade/${coin}_USDT?layout=pro`
-        return <a href={link} target="_blank" rel="noreferrer" style={{ color: "#39CCCC" }}>{coin}</a>
-    }
+
     const coinAndScore = (each, selectedMinute) => {
         const coin = each.coin?.replace("USDT", "");
         const link = `https://www.binance.com/en/trade/${coin}_USDT?layout=pro`
@@ -37,11 +33,11 @@ const TrackTable = ({ coins, selectedMinute, popoverTitle, negative = false }) =
                 return {
                     key: each?.coin,
                     coinAndScore: coinAndScore(each, selectedMinute),
-                    vs: each[selectedMinute]?.timeBackThen
+                    vs: each[selectedMinute]?.timeBackThen,
                     // key: each?.coin,
                     // // coin: C(each, selectedMinute),
                     // coin: coin(each),
-                    // [percentageFor]: P(each, selectedMinute),
+                    [percentageFor]: P(each, selectedMinute),
 
                     // // price: p(each),
                 }
@@ -62,7 +58,8 @@ const TrackTable = ({ coins, selectedMinute, popoverTitle, negative = false }) =
                 return {
                     key: each?.coin,
                     coinAndScore: coinAndScore(each, selectedMinute),
-                    vs: each[selectedMinute]?.timeBackThen
+                    vs: each[selectedMinute]?.timeBackThen,
+                    [percentageFor]: P(each, selectedMinute),
 
                 }
             }
@@ -151,18 +148,16 @@ const TrackTable = ({ coins, selectedMinute, popoverTitle, negative = false }) =
 
     return <>
 
-        <Table className="my-table" columns={columns} dataSource={dataSource} size="small" pagination={false} footer={() => updatedFooter()} />
 
-        {/* {comparedToTime ?
+        {comparedToTime ?
 
             <Table className="my-table" columns={columns} dataSource={dataSource} size="small" pagination={false} footer={() => updatedFooter()} />
-
 
             :
 
             <Empty className="not-enough-data" description={"Not enough data."} />
 
-        } */}
+        }
 
     </>
 

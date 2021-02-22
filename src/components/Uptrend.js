@@ -235,7 +235,7 @@ const Uptrend = ({ coins, selection }) => {
 
     return <>
 
-        {biggestScoreFive || biggestScoreThree ?
+        {biggestScoreThree ?
 
             <Table className="uptrend-table" scroll={{ y: 120 }} columns={COLUMNS} dataSource={DATA} size="small" pagination={false} />
 
