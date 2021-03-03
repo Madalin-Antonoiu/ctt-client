@@ -93,3 +93,38 @@
 .my-super-row .ant-divider-inner-text {
   margin-bottom: -10px;
 }
+
+/* Overlay welcome */
+.overlay1 {
+  position: relative;
+  z-index: 1;
+}
+.bg-img1 {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.size1 {
+  width: 100%;
+  min-height: 100vh;
+}
+.overlay1::before {
+  content: "";
+  display: block;
+  position: absolute;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: #233329;
+  background: -webkit-linear-gradient(bottom, #63d471, #233329);
+  background: -o-linear-gradient(bottom, #63d471, #233329);
+  background: -moz-linear-gradient(bottom, #63d471, #233329);
+  background: linear-gradient(bottom, #63d471, #233329);
+  opacity: 0.9;
+}
+
+/* main.ant-layout-content {
+  margin: 0 !important;
+} */

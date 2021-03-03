@@ -63,7 +63,7 @@ const Websocket = () => {
           ""
         }
       </err>
-      <main>
+      <main className="noMargin">
         {coins.length
           ?
           <true>

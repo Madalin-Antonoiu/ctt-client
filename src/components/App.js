@@ -48,13 +48,13 @@ class App extends React.Component {
                 </Menu.Item>
 
                 <Menu.Item key="1" icon={<PieChartOutlined />} defaultSelectedKeys={['1']}>
-                  <Link to="/websocket">Websocket</Link>
+                  <Link to="/websocket">Dashboard</Link>
                 </Menu.Item>
 
 
-                <Menu.Item key="3" icon={<DesktopOutlined />}>
+                {/* <Menu.Item key="3" icon={<DesktopOutlined />}>
                   <Link to="/exchangeInfo">ExchangeInfo</Link>
-                </Menu.Item>
+                </Menu.Item> */}
 
                 <Menu.Item key="2" icon={< LogoutOutlined />}>
                   <Link to="/signout">SignOut</Link>

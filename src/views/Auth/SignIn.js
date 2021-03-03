@@ -3,6 +3,9 @@ import { reduxForm, Field } from "redux-form";
 import { compose } from "redux";
 import { connect } from "react-redux";
 import * as actions from "../../redux/actions";
+import { Row } from "antd";
+
+
 
 class SignIn extends Component {
   onSubmit = (formProps) => {
@@ -15,20 +18,24 @@ class SignIn extends Component {
     const { handleSubmit } = this.props;
 
     return (
-      <form onSubmit={handleSubmit(this.onSubmit)}>
-        <fieldset>
-          <label htmlFor="">Email</label>
-          <Field name="email" type="text" component="input" />
-        </fieldset>
-        <fieldset>
-          <label htmlFor="">Password</label>
-          <Field name="password" type="password" component="input" />
-        </fieldset>
+      <Row type="flex" justify="center" align="middle" style={{ minHeight: 'calc(100vh - 300px)' }}>
+        <form onSubmit={handleSubmit(this.onSubmit)}>
+          <fieldset>
+            <label htmlFor="">Email</label>
+            <Field name="email" type="text" component="input" />
+          </fieldset>
+          <fieldset>
+            <label htmlFor="">Password</label>
+            <Field name="password" type="password" component="input" />
+          </fieldset>
 
-        <div>{this.props.errorMessage}</div>
+          <div>{this.props.errorMessage}</div>
 
-        <button> Sign In</button>
-      </form>
+          <button> Sign In</button>
+        </form>
+      </Row>
+
+
     );
   }
 }
